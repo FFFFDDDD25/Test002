@@ -2,4 +2,5 @@
 	git add .
 	git commit -m "foo"
 	git push  -u origin master 
-	go build
+	dotnet build
+	rem rem是註解
