@@ -15,3 +15,5 @@ FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS runtime
 WORKDIR /app
 COPY --from=build /app/out .
 ENTRYPOINT ["dotnet", "Test002.dll"]
+
+EXPOSE 8080
