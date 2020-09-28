@@ -16,4 +16,4 @@ WORKDIR /app
 COPY --from=build /app/out .
 ENTRYPOINT ["dotnet", "Test002.dll"]
 
-EXPOSE 8080
+EXPOSE 8080/tcp
