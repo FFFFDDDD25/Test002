@@ -34,7 +34,14 @@ namespace Test002
                 {
                     await context.Response.WriteAsync("Hello World! ASP.NET\n");
                 });
+
+                
+                endpoints.MapGet("/dave", async context =>
+                {
+                    await context.Response.WriteAsync("Dave Gan\n");
+                });
             });
+
         }
     }
 }
