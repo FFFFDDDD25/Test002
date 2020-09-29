@@ -16,7 +16,7 @@ RUN dotnet restore
 COPY . ./
 
 
-RUN dotnet ls
+RUN ls
 
 RUN sleep 500
 
