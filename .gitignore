@@ -12,6 +12,7 @@
 
 # Build results
 [Dd]ebug/
+#![Dd]ebug/netcoreapp3.1/chromedriver.exe
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
