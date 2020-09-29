@@ -71,7 +71,7 @@ namespace Test002
                 {
                     str = str + "\n" + file.Name;
                 }
-                await context.Response.WriteAsync("ffffffffffffffffffffffff_11" + str+"\n");
+                await context.Response.WriteAsync("ffffffffffffffffffffffff_13" + str+"\n");
                 str = "";
                 foreach(DirectoryInfo dir in d.GetDirectories() )
                 {
@@ -103,7 +103,7 @@ namespace Test002
                 {
                     str = str + "\n" + file.Name;
                 }
-                await context.Response.WriteAsync("ffffffffffffffffffffffff_12" + str+"\n");
+                await context.Response.WriteAsync("ffffffffffffffffffffffff" + str+"\n");
                 str = "";
                 foreach(DirectoryInfo dir in d.GetDirectories() )
                 {
