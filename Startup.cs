@@ -46,7 +46,43 @@ namespace Test002
                 {
                     await Sele(context);
                 });
+
+                
+                endpoints.MapGet("/gan", async context =>
+                {
+                    await Print(context);
+                });
             });
+
+        }
+
+        
+        public async Task Print(HttpContext context)
+        {
+            DirectoryInfo d = new DirectoryInfo(Directory.GetCurrentDirectory());//Assuming Test is your Folder
+            FileInfo[] Files = d.GetFiles(); //Getting Text files
+            string str = "";
+
+
+            
+            str = "";
+            foreach(FileInfo file in Files )
+            {
+                str = str + "\n" + file.Name;
+            }
+            await context.Response.WriteAsync("ffffffffffffffffffffffff" + str+"\n");
+            str = "";
+            foreach(DirectoryInfo dir in d.GetDirectories() )
+            {
+                str = str + "\n" + dir.Name;
+                if(dir.Name=="files"){
+                    foreach(var f in dir.GetFiles() )
+                    {
+                        str = str + "\n" + "--------"+f.Name;
+                    }
+                }
+            }
+            await context.Response.WriteAsync("dddddddddddddddddddddddd" + str+"\n");
 
         }
 
