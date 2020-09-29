@@ -8,7 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace Test002
-{/////
+{
     public class Program
     {
         public static void Main(string[] args)
