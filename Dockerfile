@@ -2,7 +2,8 @@
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-bionic AS build
 
-ADD ./bin/Debug/netcoreapp3.1/chromedriver.exe /bin/Debug/netcoreapp3.1/
+ADD ./files/chromedriver.exe /files/
+ADD ./files/chromedriver /files/
 
 WORKDIR app
 

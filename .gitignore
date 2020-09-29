@@ -238,8 +238,3 @@ _Pvt_Extensions
 .fake/
 
 
-
-
-!files/chromedriver.exe
-!files/chromedriver
-!*/
