@@ -7,7 +7,7 @@ WORKDIR app
 
 
 #ADD ./files/chromedriver.exe /files/
-COPY ./files/chromedriver /files/
+COPY ./files/ /files/
 
 
 # copy csproj and restore as distinct layers
