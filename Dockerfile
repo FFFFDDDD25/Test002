@@ -30,5 +30,7 @@ WORKDIR /app
 EXPOSE 8080/tcp
 COPY --from=build /app/out .
 CMD touch abc.txt
+CMD touch /app/efg.txt
+CMD touch /app/out/hij.txt
 ENTRYPOINT ["dotnet", "Test002.dll"]
 
