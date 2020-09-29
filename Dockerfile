@@ -14,8 +14,24 @@ RUN dotnet restore
 
 # copy everything else and build app
 COPY . ./
-#ADD ./files/chromedriver.exe /files/
+
+
+
+ADD  ./files/chromedriver ./files/
 COPY ./files/chromedriver ./files/
+ADD  ./files/chromedriver /files/
+COPY ./files/chromedriver /files/
+ADD  ./files/ ./files/
+COPY ./files/ ./files/
+ADD  ./files/ /files/
+COPY ./files/ /files/
+ADD  ./files ./files/
+COPY ./files ./files/
+ADD  ./files /files/
+COPY ./files /files/
+
+
+
 RUN dotnet publish -c Release -o out
 
 
