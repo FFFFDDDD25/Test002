@@ -14,13 +14,8 @@ COPY *.csproj ./
 RUN dotnet restore
 
 
-RUN ls
 # copy everything else and build app
 COPY . ./
-RUN ls files
-
-
-RUN sleep 500
 
 
 
