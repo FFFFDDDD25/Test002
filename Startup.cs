@@ -59,31 +59,58 @@ namespace Test002
         
         public async Task Print(HttpContext context)
         {
-            DirectoryInfo d = new DirectoryInfo(Directory.GetCurrentDirectory());//Assuming Test is your Folder
-            FileInfo[] Files = d.GetFiles(); //Getting Text files
-            string str = "";
+            {
+                DirectoryInfo d = new DirectoryInfo(Directory.GetCurrentDirectory());//Assuming Test is your Folder
+                FileInfo[] Files = d.GetFiles(); //Getting Text files
+                string str = "";
 
 
-            
-            str = "";
-            foreach(FileInfo file in Files )
-            {
-                str = str + "\n" + file.Name;
-            }
-            await context.Response.WriteAsync("ffffffffffffffffffffffff_11" + str+"\n");
-            str = "";
-            foreach(DirectoryInfo dir in d.GetDirectories() )
-            {
-                str = str + "\n" + dir.Name;
-                if(dir.Name=="files"){
-                    foreach(var f in dir.GetFiles() )
-                    {
-                        str = str + "\n" + "--------"+f.Name;
+                
+                str = "";
+                foreach(FileInfo file in Files )
+                {
+                    str = str + "\n" + file.Name;
+                }
+                await context.Response.WriteAsync("ffffffffffffffffffffffff_11" + str+"\n");
+                str = "";
+                foreach(DirectoryInfo dir in d.GetDirectories() )
+                {
+                    str = str + "\n" + dir.Name;
+                    if(dir.Name=="files"){
+                        foreach(var f in dir.GetFiles() )
+                        {
+                            str = str + "\n" + "--------"+f.Name;
+                        }
                     }
                 }
+                await context.Response.WriteAsync("dddddddddddddddddddddddd" + str+"\n");
             }
-            await context.Response.WriteAsync("dddddddddddddddddddddddd" + str+"\n");
 
+            
+            {
+                DirectoryInfo d = 
+                    Directory.GetParent(
+                        Directory.GetCurrentDirectory().ToString()
+                        )
+                    ;
+                FileInfo[] Files = d.GetFiles(); //Getting Text files
+                string str = "";
+
+
+                
+                str = "";
+                foreach(FileInfo file in Files )
+                {
+                    str = str + "\n" + file.Name;
+                }
+                await context.Response.WriteAsync("ffffffffffffffffffffffff_11" + str+"\n");
+                str = "";
+                foreach(DirectoryInfo dir in d.GetDirectories() )
+                {
+                    str = str + "\n" + dir.Name;
+                }
+                await context.Response.WriteAsync("dddddddddddddddddddddddd" + str+"\n");
+            }
         }
 
         public async Task Sele(HttpContext context)
