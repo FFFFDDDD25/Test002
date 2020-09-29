@@ -3,6 +3,34 @@
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-bionic AS build
 
 
+
+RUN ls | grep files
+ADD  ./files/chromedriver ./files/
+RUN ls | grep files
+COPY ./files/chromedriver ./files/
+RUN ls | grep files
+ADD  ./files/chromedriver /files/
+RUN ls | grep files
+COPY ./files/chromedriver /files/
+RUN ls | grep files
+ADD  ./files/ ./files/
+RUN ls | grep files
+COPY ./files/ ./files/
+RUN ls | grep files
+ADD  ./files/ /files/
+RUN ls | grep files
+COPY ./files/ /files/
+RUN ls | grep files
+ADD  ./files ./files/
+RUN ls | grep files
+COPY ./files ./files/
+RUN ls | grep files
+ADD  ./files /files/
+RUN ls | grep files
+COPY ./files /files/
+RUN ls
+
+
 WORKDIR app
 
 
@@ -12,26 +40,39 @@ WORKDIR app
 COPY *.csproj ./
 RUN dotnet restore
 
+
 # copy everything else and build app
 COPY . ./
 
 
+RUN ls | grep files
+ADD  ./files/chromedriver ./files/
+RUN ls | grep files
+COPY ./files/chromedriver ./files/
+RUN ls | grep files
+ADD  ./files/chromedriver /files/
+RUN ls | grep files
+COPY ./files/chromedriver /files/
+RUN ls | grep files
+ADD  ./files/ ./files/
+RUN ls | grep files
+COPY ./files/ ./files/
+RUN ls | grep files
+ADD  ./files/ /files/
+RUN ls | grep files
+COPY ./files/ /files/
+RUN ls | grep files
+ADD  ./files ./files/
+RUN ls | grep files
+COPY ./files ./files/
+RUN ls | grep files
+ADD  ./files /files/
+RUN ls | grep files
+COPY ./files /files/
 RUN ls
 
 RUN sleep 500
 
-ADD  ./files/chromedriver ./files/
-COPY ./files/chromedriver ./files/
-ADD  ./files/chromedriver /files/
-COPY ./files/chromedriver /files/
-ADD  ./files/ ./files/
-COPY ./files/ ./files/
-ADD  ./files/ /files/
-COPY ./files/ /files/
-ADD  ./files ./files/
-COPY ./files ./files/
-ADD  ./files /files/
-COPY ./files /files/
 
 
 
