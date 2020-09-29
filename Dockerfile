@@ -25,10 +25,6 @@ FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS runtime
 ENV ASPNETCORE_URLS=http://+:8080
 
 
-WORKDIR /app
-RUN ls
-RUN sleep 500
-
 
 WORKDIR /app
 EXPOSE 8080/tcp
