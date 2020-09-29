@@ -29,5 +29,6 @@ ENV ASPNETCORE_URLS=http://+:8080
 WORKDIR /app
 EXPOSE 8080/tcp
 COPY --from=build /app/out .
+CMD touch abc.txt
 ENTRYPOINT ["dotnet", "Test002.dll"]
 
