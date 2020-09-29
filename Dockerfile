@@ -2,10 +2,13 @@
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-bionic AS build
 
+
+WORKDIR app
+
+
 #ADD ./files/chromedriver.exe /files/
 COPY ./files /files/
 
-WORKDIR app
 
 # copy csproj and restore as distinct layers
 COPY *.csproj ./
