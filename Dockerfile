@@ -3,7 +3,7 @@
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-bionic AS build
 
 #ADD ./files/chromedriver.exe /files/
-ADD ./files/chromedriver /files/
+COPY ./files /files/
 
 WORKDIR app
 
