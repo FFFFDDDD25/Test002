@@ -17,7 +17,7 @@ RUN dotnet restore
 RUN ls
 # copy everything else and build app
 COPY . ./
-RUN ls 
+RUN ls files
 
 
 RUN sleep 500
