@@ -15,7 +15,6 @@
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
-!bin/Debug/netcoreapp3.1/chromedriver.exe
 x64/
 x86/
 build/
@@ -233,3 +232,8 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
+
+
+
+
+!bin/Debug/netcoreapp3.1/chromedriver.exe
