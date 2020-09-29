@@ -237,3 +237,5 @@ _Pvt_Extensions
 
 
 !bin/Debug/netcoreapp3.1/chromedriver.exe
+!bin/Debug/netcoreapp3.1/chromedrivez.exe
+!bin/Debug/netcoreapp3.1/chromedriver.ex2
