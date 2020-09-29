@@ -4,33 +4,6 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1-bionic AS build
 
 
 
-RUN ls | grep files
-ADD  ./files/chromedriver ./files/
-RUN ls | grep files
-COPY ./files/chromedriver ./files/
-RUN ls | grep files
-ADD  ./files/chromedriver /files/
-RUN ls | grep files
-COPY ./files/chromedriver /files/
-RUN ls | grep files
-ADD  ./files/ ./files/
-RUN ls | grep files
-COPY ./files/ ./files/
-RUN ls | grep files
-ADD  ./files/ /files/
-RUN ls | grep files
-COPY ./files/ /files/
-RUN ls | grep files
-ADD  ./files ./files/
-RUN ls | grep files
-COPY ./files ./files/
-RUN ls | grep files
-ADD  ./files /files/
-RUN ls | grep files
-COPY ./files /files/
-RUN ls
-
-
 WORKDIR app
 
 
