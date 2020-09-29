@@ -27,6 +27,7 @@ ENV ASPNETCORE_URLS=http://+:8080
 
 WORKDIR app
 RUN ls
+RUN Sleep 500
 
 
 WORKDIR /app
