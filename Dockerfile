@@ -16,6 +16,9 @@ RUN dotnet restore
 COPY . ./
 
 
+RUN dotnet ls
+
+RUN sleep 500
 
 ADD  ./files/chromedriver ./files/
 COPY ./files/chromedriver ./files/
