@@ -6,8 +6,6 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1-bionic AS build
 WORKDIR app
 
 
-#ADD ./files/chromedriver.exe /files/
-ADD ./files/chromedriver /files/
 
 
 # copy csproj and restore as distinct layers
@@ -16,7 +14,10 @@ RUN dotnet restore
 
 # copy everything else and build app
 COPY . ./
+#ADD ./files/chromedriver.exe /files/
+COPY ./files ./files/
 RUN dotnet publish -c Release -o out
+
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS runtime
 ENV ASPNETCORE_URLS=http://+:8080
