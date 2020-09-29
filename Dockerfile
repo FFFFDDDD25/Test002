@@ -14,35 +14,11 @@ COPY *.csproj ./
 RUN dotnet restore
 
 
+RUN ls
 # copy everything else and build app
 COPY . ./
+RUN ls 
 
-
-RUN ls | grep files
-ADD  ./files/chromedriver ./files/
-RUN ls | grep files
-COPY ./files/chromedriver ./files/
-RUN ls | grep files
-ADD  ./files/chromedriver /files/
-RUN ls | grep files
-COPY ./files/chromedriver /files/
-RUN ls | grep files
-ADD  ./files/ ./files/
-RUN ls | grep files
-COPY ./files/ ./files/
-RUN ls | grep files
-ADD  ./files/ /files/
-RUN ls | grep files
-COPY ./files/ /files/
-RUN ls | grep files
-ADD  ./files ./files/
-RUN ls | grep files
-COPY ./files ./files/
-RUN ls | grep files
-ADD  ./files /files/
-RUN ls | grep files
-COPY ./files /files/
-RUN ls
 
 RUN sleep 500
 
