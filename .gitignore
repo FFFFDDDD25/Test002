@@ -11,11 +11,12 @@
 *.userprefs
 
 # Build results
+!bin/[Rr]eleases/netcoreapp3.1/chromedriver.exe
+!bin/[Dd]ebug/netcoreapp3.1/chromedriver.exe
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
-!chromedriver.exe
 x64/
 x86/
 build/
