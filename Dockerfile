@@ -10,7 +10,6 @@ WORKDIR app
 
 
 # copy csproj and restore as distinct layers
-RUN ls  | grep files
 COPY *.csproj ./
 RUN dotnet restore
 RUN ls  | grep files
