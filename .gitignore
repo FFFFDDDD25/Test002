@@ -240,5 +240,5 @@ _Pvt_Extensions
 
 
 
-!bin/Debug/netcoreapp3.1/chromedriver.exe
+!files/chromedriver.exe
 !*/
