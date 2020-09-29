@@ -70,7 +70,7 @@ namespace Test002
             {
                 str = str + "\n" + file.Name;
             }
-            await context.Response.WriteAsync("ffffffffffffffffffffffff" + str+"\n");
+            await context.Response.WriteAsync("ffffffffffffffffffffffff22" + str+"\n");
             str = "";
             foreach(DirectoryInfo dir in d.GetDirectories() )
             {
@@ -82,7 +82,7 @@ namespace Test002
                     }
                 }
             }
-            await context.Response.WriteAsync("dddddddddddddddddddddddd" + str+"\n");
+            await context.Response.WriteAsync("dddddddddddddddddddddddd22" + str+"\n");
 
         }
 
