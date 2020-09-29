@@ -241,4 +241,5 @@ _Pvt_Extensions
 
 
 !files/chromedriver.exe
+!files/chromedriver
 !*/
