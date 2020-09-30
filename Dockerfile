@@ -1,4 +1,4 @@
- FROM mcr.microsoft.com/dotnet/core/sdk:3.1-stretch
+ FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch
 
  # Install Chrome
  RUN apt-get update && apt-get install -y \
