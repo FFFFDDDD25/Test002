@@ -12,6 +12,9 @@ RUN dotnet restore
 COPY . ./
 
 
+RUN dotnet publish -c Release -o out
+
+
                         # Install the latest versions of Google Chrome and Chromedriver:
                         RUN export DEBIAN_FRONTEND=noninteractive \
                         && apt-get update \
@@ -46,8 +49,7 @@ COPY . ./
                             /var/tmp/*
 
                             
-RUN dotnet publish -c Release -o out
-
+                            
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS runtime
 WORKDIR /app
