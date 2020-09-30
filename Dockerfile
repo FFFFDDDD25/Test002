@@ -15,6 +15,12 @@ COPY . ./
 RUN dotnet publish -c Release -o out
 
 
+                            
+
+# Build runtime image
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS runtime
+
+
                         # Install the latest versions of Google Chrome and Chromedriver:
                         RUN export DEBIAN_FRONTEND=noninteractive \
                         && apt-get update \
@@ -48,10 +54,8 @@ RUN dotnet publish -c Release -o out
                             /var/lib/apt/lists/* \
                             /var/tmp/*
 
-                            
-                            
-# Build runtime image
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS runtime
+
+
 WORKDIR /app
 COPY --from=build-env /app/out .
 ENTRYPOINT ["dotnet", "Test002.dll"]
