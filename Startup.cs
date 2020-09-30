@@ -133,7 +133,7 @@ namespace Test002
 
             try
             {
-                driver.Navigate().GoToUrl("https://www.bt.com/sport/football/premier-league/table");//開啟網頁 這行一般花兩~三秒
+                driver.Navigate().GoToUrl("https://www.bt.com/sport/football/la-liga/table");//開啟網頁 這行一般花兩~三秒
                 //driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);//隱式等待 - 直到畫面跑出資料才往下執行
 
 
