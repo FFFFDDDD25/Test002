@@ -4,10 +4,6 @@ WORKDIR /app
 
 # Copy csproj and restore as distinct layers
 COPY *.csproj ./
-RUN dotnet restore
-
-# Copy everything else and build
-COPY . ./
 CMD ls
 CMD touch fsdfsfsf
 CMD ls
@@ -17,6 +13,10 @@ CMD touch cvxcvxcvv
 CMD ls
 CMD touch 2424324
 CMD ls
+RUN dotnet restore
+
+# Copy everything else and build
+COPY . ./
 RUN dotnet publish -c Release -o out
 
 # Build runtime image
