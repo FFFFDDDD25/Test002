@@ -39,12 +39,12 @@ namespace Test002
             {
                 endpoints.MapGet("/", async context =>
                 {
-                    await context.Response.WriteAsync("Hello World! ASP.NET~~!!\n");
+                    await Sele(context);
                 });
 
                 endpoints.MapGet("/dave", async context =>
                 {
-                    await Sele(context);
+                    await context.Response.WriteAsync("Hello World! ASP.NET~~!!\n");
                 });
 
                 
