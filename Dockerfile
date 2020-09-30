@@ -1,4 +1,5 @@
 
+CMD Sleep 9999
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-env
 WORKDIR /app
 
@@ -7,7 +8,7 @@ COPY *.csproj ./
 CMD ls
 RUN dotnet restore
 CMD ls
-CMD sleep 9999
+CMD Sleep 9999
 
 # Copy everything else and build
 COPY . ./
