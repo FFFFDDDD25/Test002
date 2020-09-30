@@ -59,13 +59,11 @@ namespace Test002
         
         public async Task Print(HttpContext context)
         {
+            DirectoryInfo d = new DirectoryInfo(Directory.GetCurrentDirectory());//Assuming Test is your Folder
+
             {
-                DirectoryInfo d = new DirectoryInfo(Directory.GetCurrentDirectory());//Assuming Test is your Folder
                 FileInfo[] Files = d.GetFiles(); //Getting Text files
                 string str = "";
-
-
-                
                 str = "";
                 foreach(FileInfo file in Files )
                 {
@@ -88,16 +86,10 @@ namespace Test002
 
             
             {
-                DirectoryInfo d = 
-                    Directory.GetParent(
-                        Directory.GetCurrentDirectory().ToString()
-                        )
+                DirectoryInfo d2 = d.Parent;
                     ;
-                FileInfo[] Files = d.GetFiles(); //Getting Text files
+                FileInfo[] Files = d2.GetFiles(); //Getting Text files
                 string str = "";
-
-
-                
                 str = "";
                 foreach(FileInfo file in Files )
                 {
@@ -105,7 +97,60 @@ namespace Test002
                 }
                 await context.Response.WriteAsync("ffffffffffffffffffffffff" + str+"\n");
                 str = "";
+                foreach(DirectoryInfo dir in d2.GetDirectories() )
+                {
+                    str = str + "\n" + dir.Name;
+                }
+                await context.Response.WriteAsync("dddddddddddddddddddddddd" + str+"\n");
+            }
+
+
+
+
+            d = new DirectoryInfo(
+                Path.GetDirectoryName(
+                System.Reflection.Assembly.GetExecutingAssembly().Location
+                )
+                );
+
+
+
+            {
+                FileInfo[] Files = d.GetFiles(); //Getting Text files
+                string str = "";
+                str = "";
+                foreach(FileInfo file in Files )
+                {
+                    str = str + "\n" + file.Name;
+                }
+                await context.Response.WriteAsync("ffffffffffffffffffffffff_13" + str+"\n");
+                str = "";
                 foreach(DirectoryInfo dir in d.GetDirectories() )
+                {
+                    str = str + "\n" + dir.Name;
+                    if(dir.Name=="files"){
+                        foreach(var f in dir.GetFiles() )
+                        {
+                            str = str + "\n" + "--------"+f.Name;
+                        }
+                    }
+                }
+                await context.Response.WriteAsync("dddddddddddddddddddddddd" + str+"\n");
+            }
+
+            
+            {
+                DirectoryInfo d2 = d.Parent;
+                FileInfo[] Files = d2.GetFiles(); //Getting Text files
+                string str = "";
+                str = "";
+                foreach(FileInfo file in Files )
+                {
+                    str = str + "\n" + file.Name;
+                }
+                await context.Response.WriteAsync("ffffffffffffffffffffffff" + str+"\n");
+                str = "";
+                foreach(DirectoryInfo dir in d2.GetDirectories() )
                 {
                     str = str + "\n" + dir.Name;
                 }
