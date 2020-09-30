@@ -39,7 +39,7 @@ namespace Test002
             {
                 endpoints.MapGet("/", async context =>
                 {
-                    await context.Response.WriteAsync("Hello World! ASP.NET~~     12        \n");
+                    await context.Response.WriteAsync("Hello World! ASP.NET~~     13        \n");
                 });
 
                 endpoints.MapGet("/dave", async context =>
@@ -166,8 +166,8 @@ namespace Test002
 
             try
             {
-                driver.Navigate().GoToUrl("https://www.bt.com/sport/football/premier-league/table");//開啟網頁
-                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3000);//隱式等待 - 直到畫面跑出資料才往下執行
+                driver.Navigate().GoToUrl("https://www.bt.com/sport/football/premier-league/table");//開啟網頁 這行一般花兩~三秒
+                //driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);//隱式等待 - 直到畫面跑出資料才往下執行
 
 
                 var FALSE = false;
@@ -194,8 +194,9 @@ namespace Test002
                     Thread.Sleep(2000);
                 }
 
-
                 var msg = JsonConvert.SerializeObject(driver.PageSource);
+
+
                 var listPoint = new List<string>();
                 var listName = new List<string>();
 
