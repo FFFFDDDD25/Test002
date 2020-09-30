@@ -4,7 +4,10 @@ WORKDIR /app
 
 # Copy csproj and restore as distinct layers
 COPY *.csproj ./
+CMD ls
 RUN dotnet restore
+CMD ls
+CMD sleep 9999
 
 # Copy everything else and build
 COPY . ./
