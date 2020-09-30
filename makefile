@@ -1,6 +1,7 @@
 
 
 previewreset:
+	docker stop Test002
 	docker rm Test002
 	make preview
 
