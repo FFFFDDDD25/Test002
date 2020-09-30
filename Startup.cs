@@ -184,7 +184,7 @@ namespace Test002
 
                 {
                     var 原始 = "後面註解"; //  <a href="https://www.bt.com/sport/football/liverpool">LIV</a>
-                    MatchCollection  matches = new Regex(@"www.bt.com.sport.football.([a-z\-]{0,30})..>(.{0,30})<",RegexOptions.Compiled).Matches(msg);
+                    MatchCollection  matches = new Regex(@"www.bt.com.sport.football.([0-9a-z\-]{0,30})..>(.{0,30})<",RegexOptions.Compiled).Matches(msg);
                    // MatchCollection  matches = new Regex(@"www.bt.com.sport.football.........................)",RegexOptions.Compiled).Matches(msg);
                    foreach (Match match in matches)
                     {
