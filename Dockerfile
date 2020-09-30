@@ -33,7 +33,14 @@ WORKDIR /app
 CMD touch a07txt
 
 EXPOSE 8080/tcp
+
+
+CMD ls /app/out
 COPY --from=build /app/out .
+CMD ls /app/out
+CMD sleep 500
+
+
 CMD touch a01txt
 CMD touch /app/a02txt
 CMD touch /app/out/a03txt

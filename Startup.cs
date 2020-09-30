@@ -117,7 +117,7 @@ namespace Test002
         {
             var chromeOptions = new ChromeOptions();
             chromeOptions.AddArguments("headless");
-            IWebDriver driver = new ChromeDriver("files",chromeOptions);//"files",chromeOptions
+            IWebDriver driver = new ChromeDriver(chromeOptions);//"files",chromeOptions
 
             try
             {
