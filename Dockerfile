@@ -1,45 +1,17 @@
-
-
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1-bionic AS build
-
-
-
-WORKDIR app
-
-
-CMD touch a06txt
-
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
+WORKDIR /app
 
 # copy csproj and restore as distinct layers
-COPY *.csproj ./
+COPY *.sln .
+COPY Test002/*.csproj ./Test002/
 RUN dotnet restore
+
 # copy everything else and build app
-COPY . ./
-CMD touch a04txt
-
-
-
-
+COPY Test002/. ./Test002/
+WORKDIR /app/Test002
 RUN dotnet publish -c Release -o out
-CMD touch a05txt
-
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS runtime
-ENV ASPNETCORE_URLS=http://+:8080
-
-
-
 WORKDIR /app
-CMD touch a07txt
-
-EXPOSE 8080/tcp
-
-
-COPY --from=build /app/out .
-
-
-CMD touch a01txt
-CMD touch /app/a02txt
-CMD touch /app/out/a03txt
+COPY --from=build /app/Test002/out ./
 ENTRYPOINT ["dotnet", "Test002.dll"]
-
