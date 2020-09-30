@@ -14,11 +14,14 @@ using System.Threading;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace Test002
 {
     public class Startup
     {
+        
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -28,6 +31,72 @@ namespace Test002
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            new Thread(() => 
+            {
+                var apiKey = "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";
+                
+                Dictionary<string,int> dic2 = null;
+                while(true)
+                {
+                    Thread.Sleep(TimeSpan.FromHours(1));
+                    var dic1  = Sele(null).Result;
+
+                    if(dic2==null)
+                    {
+                        dic2 = dic1.ToDictionary(entry => entry.Key,
+                                               entry => entry.Value);
+                        continue;
+                    }
+
+                    var content ="";
+
+                    
+                    foreach (KeyValuePair<string, int> kv in dic1)
+                    {
+                        if(dic1[kv.Key] != kv.Value)
+                        {
+                            content += String.Format(
+                                @"
+                                team name:{0},
+                                ori gd:{1},
+                                new gd:{2},
+                                ",
+                                kv.Key,
+                                dic1[kv.Key],
+                                kv.Value
+                            );
+                            content += "\n";
+                        }
+                    }
+                    
+                    if(content!="")
+                    {
+                        var response = new SendGridClient(apiKey).SendEmailAsync(MailHelper.CreateSingleEmail(
+                            new EmailAddress("hyfileserver@gmail.com", "這是寄件者名稱"),
+                            new EmailAddress("killuplus300@gmail.com"),
+                            "GCP測試喔",
+                            content,
+                            content
+                            )).Result;
+                            
+                        if (response.StatusCode != System.Net.HttpStatusCode.Accepted)
+                        {
+                        }
+                        else
+                        {
+                        }
+                    }
+
+                    dic2 = dic1.ToDictionary(entry => entry.Key,
+                                           entry => entry.Value);
+                }
+                
+
+
+            }).Start();
+            
+
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -46,119 +115,12 @@ namespace Test002
                 {
                     await Sele(context);
                 });
-
-                
-                endpoints.MapGet("/gan", async context =>
-                {
-                    await Print(context);
-                });
             });
 
         }
 
         
-        public async Task Print(HttpContext context)
-        {
-            DirectoryInfo d = new DirectoryInfo(Directory.GetCurrentDirectory());//Assuming Test is your Folder
-
-            {
-                FileInfo[] Files = d.GetFiles(); //Getting Text files
-                string str = "";
-                str = "";
-                foreach(FileInfo file in Files )
-                {
-                    str = str + "\n" + file.Name;
-                }
-                await context.Response.WriteAsync("ffffffffffffffffffffffff_13" + str+"\n");
-                str = "";
-                foreach(DirectoryInfo dir in d.GetDirectories() )
-                {
-                    str = str + "\n" + dir.Name;
-                    if(dir.Name=="files"){
-                        foreach(var f in dir.GetFiles() )
-                        {
-                            str = str + "\n" + "--------"+f.Name;
-                        }
-                    }
-                }
-                await context.Response.WriteAsync("dddddddddddddddddddddddd" + str+"\n");
-            }
-
-            
-            {
-                DirectoryInfo d2 = d.Parent;
-                    ;
-                FileInfo[] Files = d2.GetFiles(); //Getting Text files
-                string str = "";
-                str = "";
-                foreach(FileInfo file in Files )
-                {
-                    str = str + "\n" + file.Name;
-                }
-                await context.Response.WriteAsync("ffffffffffffffffffffffff" + str+"\n");
-                str = "";
-                foreach(DirectoryInfo dir in d2.GetDirectories() )
-                {
-                    str = str + "\n" + dir.Name;
-                }
-                await context.Response.WriteAsync("dddddddddddddddddddddddd" + str+"\n");
-            }
-
-
-
-
-            d = new DirectoryInfo(
-                Path.GetDirectoryName(
-                System.Reflection.Assembly.GetExecutingAssembly().Location
-                )
-                );
-
-
-
-            {
-                FileInfo[] Files = d.GetFiles(); //Getting Text files
-                string str = "";
-                str = "";
-                foreach(FileInfo file in Files )
-                {
-                    str = str + "\n" + file.Name;
-                }
-                await context.Response.WriteAsync("ffffffffffffffffffffffff_13" + str+"\n");
-                str = "";
-                foreach(DirectoryInfo dir in d.GetDirectories() )
-                {
-                    str = str + "\n" + dir.Name;
-                    if(dir.Name=="files"){
-                        foreach(var f in dir.GetFiles() )
-                        {
-                            str = str + "\n" + "--------"+f.Name;
-                        }
-                    }
-                }
-                await context.Response.WriteAsync("dddddddddddddddddddddddd" + str+"\n");
-            }
-
-            
-            {
-                DirectoryInfo d2 = d.Parent;
-                FileInfo[] Files = d2.GetFiles(); //Getting Text files
-                string str = "";
-                str = "";
-                foreach(FileInfo file in Files )
-                {
-                    str = str + "\n" + file.Name;
-                }
-                await context.Response.WriteAsync("ffffffffffffffffffffffff" + str+"\n");
-                str = "";
-                foreach(DirectoryInfo dir in d2.GetDirectories() )
-                {
-                    str = str + "\n" + dir.Name;
-                }
-                await context.Response.WriteAsync("dddddddddddddddddddddddd" + str+"\n");
-            }
-        }
-
-        public async Task Sele(HttpContext context)
+        public async Task<Dictionary<string,int>> Sele(HttpContext context)
         {
             var chromeOptions = new ChromeOptions();
             chromeOptions.AddArguments("headless");
@@ -225,6 +187,19 @@ namespace Test002
                     }
                 }
 
+                if(context==null)
+                {
+                    if(listPoint.Count==listName.Count)
+                    {
+                        var dic = new Dictionary<string,int>();
+                        for(int i=0;i<listName.Count;i++){
+                            dic.Add(listName[i],Convert.ToInt32(listPoint[i]));
+                        }
+                        return dic;
+                    }
+
+                    return null;
+                }
 //
                 await context.Response.WriteAsync("listPoint "+listPoint.Count+"\n");
                 await context.Response.WriteAsync("listName "+listName.Count+"\n");
@@ -240,15 +215,11 @@ namespace Test002
             catch (Exception ex)
             {
                 await context.Response.WriteAsync("\n" + "\n" + ex.ToString() + "\n" + "\n" + "\n");
-                return;
-            }
-            finally
-            {
-                await context.Response.WriteAsync(driver.Title + "\n");
-                driver.Quit();
             }
 
-
+             await context.Response.WriteAsync(driver.Title + "\n");
+             driver.Quit();
+            return null;
         }
     }
 }
