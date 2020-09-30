@@ -38,7 +38,6 @@ namespace Test002
                 Dictionary<string,int> dic2 = null;
                 while(true)
                 {
-                    Thread.Sleep(TimeSpan.FromHours(1));
                     var dic1  = Sele(null).Result;
 
                     if(dic1==null)
@@ -94,6 +93,7 @@ namespace Test002
 
                     dic2 = dic1.ToDictionary(entry => entry.Key,
                                            entry => entry.Value);
+                    Thread.Sleep(TimeSpan.FromHours(1));
                 }
                 
 
