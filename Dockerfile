@@ -8,6 +8,10 @@ COPY *.csproj ./
 RUN dotnet restore
 
 
+# Copy everything else and build
+COPY . ./
+
+
                         # Install the latest versions of Google Chrome and Chromedriver:
                         RUN export DEBIAN_FRONTEND=noninteractive \
                         && apt-get update \
@@ -41,9 +45,7 @@ RUN dotnet restore
                             /var/lib/apt/lists/* \
                             /var/tmp/*
 
-
-# Copy everything else and build
-COPY . ./
+                            
 RUN dotnet publish -c Release -o out
 
 # Build runtime image
