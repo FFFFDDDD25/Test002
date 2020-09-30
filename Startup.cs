@@ -44,7 +44,7 @@ namespace Test002
 
                 endpoints.MapGet("/dave", async context =>
                 {
-                    await context.Response.WriteAsync("Hello World! ASP.NET~~!!\n");
+                    await context.Response.WriteAsync("Hello World! ASP.NET~~     3        \n");
                 });
 
                 
