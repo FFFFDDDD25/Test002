@@ -1,6 +1,13 @@
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-env
 
+WORKDIR /app
+
+# Copy csproj and restore as distinct layers
+COPY *.csproj ./
+RUN dotnet restore
+
+
                         # Install the latest versions of Google Chrome and Chromedriver:
                         RUN export DEBIAN_FRONTEND=noninteractive \
                         && apt-get update \
@@ -34,11 +41,6 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-env
                             /var/lib/apt/lists/* \
                             /var/tmp/*
 
-WORKDIR /app
-
-# Copy csproj and restore as distinct layers
-COPY *.csproj ./
-RUN dotnet restore
 
 # Copy everything else and build
 COPY . ./
