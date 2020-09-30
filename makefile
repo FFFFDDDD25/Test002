@@ -1,9 +1,9 @@
 
 
 previewreset:
-	docker kill Test002
-	preview
+	docker rm Test002
+	make preview
 
 preview:
 	docker build -t aspnetapp .
-	docker start -d -p 8080:80 --name Test002 aspnetapp
+	docker run -d -p 8080:80 --name Test002 aspnetapp
