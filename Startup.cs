@@ -41,12 +41,17 @@ namespace Test002
                     Thread.Sleep(TimeSpan.FromHours(1));
                     var dic1  = Sele(null).Result;
 
+                    if(dic1==null)
+                    {
+                        continue;
+                    }
                     if(dic2==null)
                     {
                         dic2 = dic1.ToDictionary(entry => entry.Key,
                                                entry => entry.Value);
                         continue;
                     }
+                    
 
                     var content ="";
 
@@ -108,7 +113,7 @@ namespace Test002
             {
                 endpoints.MapGet("/", async context =>
                 {
-                    await context.Response.WriteAsync("Hello World! ASP.NET~~     22        \n");
+                    await context.Response.WriteAsync("Hello World! ASP.NET~~     23        \n");
                 });
 
                 endpoints.MapGet("/dave", async context =>
