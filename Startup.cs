@@ -39,7 +39,7 @@ namespace Test002
             {
                 endpoints.MapGet("/", async context =>
                 {
-                    await context.Response.WriteAsync("Hello World! ASP.NET~~     8        \n");
+                    await context.Response.WriteAsync("Hello World! ASP.NET~~     9        \n");
                 });
 
                 endpoints.MapGet("/dave", async context =>
