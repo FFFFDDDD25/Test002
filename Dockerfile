@@ -1,44 +1,13 @@
 
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-env
+ FROM masteroleary/selenium-dotnetcore2.2-linux:v2 AS build-env
 WORKDIR /app
 
-CMD ls
-CMD touch fsdfsfsf
-CMD ls
-CMD touch werwrewr
-CMD ls
-CMD touch cvxcvxcvv
-CMD ls
-CMD touch 2424324
-CMD ls
 # Copy csproj and restore as distinct layers
 COPY *.csproj ./
-
-
-CMD ls
-CMD touch fsdfsfsf
-CMD ls
-CMD touch werwrewr
-CMD ls
-CMD touch cvxcvxcvv
-CMD ls
-CMD touch 2424324
-CMD ls
-
-
 RUN dotnet restore
 
 # Copy everything else and build
 COPY . ./
-CMD ls
-CMD touch fsdfsfsf
-CMD ls
-CMD touch werwrewr
-CMD ls
-CMD touch cvxcvxcvv
-CMD ls
-CMD touch 2424324
-CMD ls
 RUN dotnet publish -c Release -o out
 
 # Build runtime image
