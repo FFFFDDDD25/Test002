@@ -144,7 +144,7 @@ namespace Test002
             try
             {
                 driver.Navigate().GoToUrl("https://www.bt.com/sport/football/premier-league/table");//開啟網頁 這行一般花兩~三秒
-                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);//隱式等待 - 直到畫面跑出資料才往下執行
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(15);//隱式等待 - 直到畫面跑出資料才往下執行
                 var msg = JsonConvert.SerializeObject(driver.PageSource);
 
 
