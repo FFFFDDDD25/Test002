@@ -44,7 +44,7 @@ namespace Test002
                     {
                         continue;
                     }
-                    
+
                     if(dic1["Liverpool"]==5){dic1["Liverpool"]=2;}
                     else if(dic1["Liverpool"]==2){dic1["Liverpool"]=5;}
 
@@ -121,7 +121,7 @@ namespace Test002
             {
                 endpoints.MapGet("/", async context =>
                 {
-                    await context.Response.WriteAsync("Hello World! ASP.NET~~     24        \n");
+                    await context.Response.WriteAsync("Hello World! version: "+v.version+"        \n");
                 });
 
                 endpoints.MapGet("/dave", async context =>
