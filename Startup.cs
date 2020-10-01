@@ -49,7 +49,7 @@ namespace Test002
                     if(dic1["Arsenal"]==5){dic1["Arsenal"]=2;}
                     if(dic1["Arsenal"]==2){dic1["Arsenal"]=5;}
 
-                    
+
                     if(dic2==null)
                     {
                         dic2 = dic1.ToDictionary(entry => entry.Key,
@@ -138,7 +138,7 @@ namespace Test002
             IWebDriver driver = new ChromeDriver(
                 ChromeDriverService.CreateDefaultService(),
                 chromeOptions,
-                TimeSpan.FromSeconds(10));
+                TimeSpan.FromSeconds(30));
             var dic = new Dictionary<string,int>();
             
             try
