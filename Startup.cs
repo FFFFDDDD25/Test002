@@ -45,13 +45,6 @@ namespace Test002
                         continue;
                     }
 
-                    if(dic1["Liverpool"]==5){dic1["Liverpool"]=2;}
-                    else if(dic1["Liverpool"]==2){dic1["Liverpool"]=5;}
-
-                    if(dic1["Arsenal"]==5){dic1["Arsenal"]=2;}
-                    else if(dic1["Arsenal"]==2){dic1["Arsenal"]=5;}
-
-
                     if(dic2==null)
                     {
                         dic2 = dic1.ToDictionary(entry => entry.Key,
