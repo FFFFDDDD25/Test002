@@ -40,7 +40,7 @@ namespace Test002
                 {
                     var dic1  = Sele(null).Result;
 
-                    if(dic1==null)
+                    if(dic1==null || dic1.Count==0)
                     {
                         continue;
                     }
@@ -52,12 +52,18 @@ namespace Test002
                     }
                     
 
+                    if(dic2["Liverpool"]==5){dic2["Liverpool"]=2;}
+                    if(dic2["Liverpool"]==2){dic2["Liverpool"]=5;}
+                    if(dic2["Arsenal"]==5){dic2["Arsenal"]=2;}
+                    if(dic2["Arsenal"]==2){dic2["Arsenal"]=5;}
+
+
                     var content ="";
 
                     
                     foreach (KeyValuePair<string, int> kv in dic1)
                     {
-                        if(dic1[kv.Key] != kv.Value)
+                        if(dic1[kv.Key] != dic2[kv.Key])
                         {
                             content += String.Format(
                                 @"
@@ -67,9 +73,10 @@ namespace Test002
                                 ",
                                 kv.Key,
                                 dic1[kv.Key],
-                                kv.Value
+                                dic2[kv.Key]
                             );
                             content += "\n";
+                            dic1[kv.Key] = dic2[kv.Key];
                         }
                     }
                     
@@ -90,9 +97,6 @@ namespace Test002
                         {
                         }
                     }
-
-                    dic2 = dic1.ToDictionary(entry => entry.Key,
-                                           entry => entry.Value);
                     Thread.Sleep(TimeSpan.FromHours(1));
                 }
                 
@@ -129,102 +133,63 @@ namespace Test002
         {
             var chromeOptions = new ChromeOptions();
             chromeOptions.AddArguments("headless");
-            IWebDriver driver = new ChromeDriver(chromeOptions);//"files",chromeOptions
-
+            IWebDriver driver = new ChromeDriver(
+                ChromeDriverService.CreateDefaultService(),
+                chromeOptions,
+                TimeSpan.FromSeconds(10));
+            var dic = new Dictionary<string,int>();
+            
             try
             {
-                driver.Navigate().GoToUrl("https://www.bt.com/sport/football/serie-a/table");//開啟網頁 這行一般花兩~三秒
+                driver.Navigate().GoToUrl("https://www.bt.com/sport/football/premier-league/table");//開啟網頁 這行一般花兩~三秒
                 //driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);//隱式等待 - 直到畫面跑出資料才往下執行
-
-
-                var FALSE = false;
-                if (FALSE)
-                {
-                    //輸入帳號
-                    IWebElement inputAccount = driver.FindElement(By.Name("email"));
-                    //清除按鈕
-                    inputAccount.Clear();
-                    Thread.Sleep(500);
-                    inputAccount.SendKeys("LiveChat_Account");
-                    Thread.Sleep(500);
-
-                    IWebElement inputPassword = driver.FindElement(By.Name("password"));
-                    inputPassword.Clear();
-                    Thread.Sleep(500);
-                    inputPassword.SendKeys("LiveChat_Password");
-                    Thread.Sleep(500);
-
-                    //點擊執行
-                    IWebElement submitButton = driver.FindElement(By.XPath("/html/body/div[2]/div/div[2]/div[2]/div/div/form/div[3]/button/span"));
-                    Thread.Sleep(500);
-                    submitButton.Click();
-                    Thread.Sleep(2000);
-                }
-
                 var msg = JsonConvert.SerializeObject(driver.PageSource);
 
 
-                var listPoint = new List<string>();
-                var listName = new List<string>();
-
-
+                MatchCollection  matchesGD=null;
+                MatchCollection  matchesNAME=null;
                 {
-                    var 原始 = "後面註解"; //   <td class="league-gd">+8</td>
-                    MatchCollection  matches = new Regex(@"league-gd........",RegexOptions.Compiled).Matches(msg);
-                    foreach (Match match in matches)
-                    {
-                        var m = new Regex(">([+-]{0,1}[0-9]{1,4})<").Match(match.Value);
-                        if (m.Success)
-                        {
-                            listPoint.Add(m.Groups[1].Value);
-                        }
-                    }
+                    var 原始 = "後面註解"; //   \">4</td> <td class=\"league-gd\">+8</td> <td class=\
+                    matchesGD = new Regex(@"<td class=\\""league-gd\\"">(.{1,4})</td>",RegexOptions.Compiled).Matches(msg);
                 }
                 
 
                 {
-                    var 原始 = "後面註解"; //  <a href="https://www.bt.com/sport/football/liverpool">LIV</a>
-                    MatchCollection  matches = new Regex(@"www.bt.com.sport.football.([0-9a-z\-]{0,30})..>(.{0,30})<",RegexOptions.Compiled).Matches(msg);
-                   // MatchCollection  matches = new Regex(@"www.bt.com.sport.football.........................)",RegexOptions.Compiled).Matches(msg);
-                   foreach (Match match in matches)
+                    var 原始 = "後面註解"; //  href=\"https://www.bt.com/sport/football/leicester-city\">Leicester City</a></td> <td clas
+                    matchesNAME = new Regex(@"href=\\""https://www.bt.com.sport.football/.{1,30}\\"">(.{1,30})</a></td>",RegexOptions.Compiled).Matches(msg);
+                }
+
+                if(matchesGD.Count == matchesNAME.Count)
+                {
+                    for(int i=0;i<matchesGD.Count;i++)
                     {
-                        listName.Add(match.Groups[1].Value);
+                        dic.Add(
+                            matchesNAME[i].Groups[1].Value,
+                            Convert.ToInt32(matchesGD[i].Groups[1].Value)
+                            );
                     }
                 }
 
-                if(context==null)
-                {
-                    if(listPoint.Count==listName.Count)
-                    {
-                        var dic = new Dictionary<string,int>();
-                        for(int i=0;i<listName.Count;i++){
-                            dic.Add(listName[i],Convert.ToInt32(listPoint[i]));
-                        }
-                        return dic;
-                    }
 
-                    return null;
-                }
-//
-                await context.Response.WriteAsync("listPoint "+listPoint.Count+"\n");
-                await context.Response.WriteAsync("listName "+listName.Count+"\n");
 
-                if(listPoint.Count==listName.Count)
+
+                if(context!=null)
                 {
-                    for(int i=0;i<listName.Count;i++)
-                    {
-                        await context.Response.WriteAsync( listPoint[i] +": " +  listName[i]+"\n");
-                    }
+                    await context.Response.WriteAsync( "\n"+JsonConvert.SerializeObject(dic)+"\n");
                 }
             }
             catch (Exception ex)
             {
-                await context.Response.WriteAsync("\n" + "\n" + ex.ToString() + "\n" + "\n" + "\n");
+                if(context!=null)
+                {
+                    await context.Response.WriteAsync("\n" + "\n" + ex.ToString() + "\n" + "\n" + "\n");
+                }
             }
-
-             await context.Response.WriteAsync(driver.Title + "\n");
-             driver.Quit();
-            return null;
+            finally
+            {
+                driver.Quit();
+            }
+            return dic;
         }
     }
 }
