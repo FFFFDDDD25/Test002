@@ -68,7 +68,7 @@ namespace Test002
                     
                     foreach (KeyValuePair<string, int> kv in dic1)
                     {
-                        if(dic1[kv.Key] != dic2[kv.Key])
+                        if(kv.Value != dic2[kv.Key])
                         {
                             content += String.Format(
                                 @"
@@ -78,10 +78,10 @@ namespace Test002
                                 ",
                                 kv.Key,
                                 dic2[kv.Key],
-                                dic1[kv.Key]
+                                kv.Value
                             );
                             content += "\n";
-                            dic2[kv.Key] = dic1[kv.Key];
+                            dic2[kv.Key] = kv.Value;
                         }
                     }
                     
