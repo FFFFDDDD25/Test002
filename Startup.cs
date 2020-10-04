@@ -31,6 +31,11 @@ namespace Test002
         //
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 
+
+
+
+
+        public static Dictionary<string,int> dic2 = null;
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
@@ -39,7 +44,6 @@ namespace Test002
             {
                 var apiKey = "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";
                 
-                Dictionary<string,int> dic2 = null;
                 while(true)
                 {
                     var dic1  = Sele(null).Result;
@@ -126,10 +130,15 @@ namespace Test002
                 });
 
                 
+
+                endpoints.MapGet("/gan", async context =>
+                {
+                    await context.Response.WriteAsync(JsonConvert.SerializeObject(dic2));
+                });
+
+                
                 endpoints.MapGet("/warn", async context =>
                 {
-                    
-                    
                     await context.Response.WriteAsync("done\n");
                 });
             });
