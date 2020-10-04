@@ -16,6 +16,7 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
 using SendGrid;
 using SendGrid.Helpers.Mail;
+using Google.Cloud.Diagnostics.AspNetCore;
 
 namespace Test002
 {
@@ -29,8 +30,11 @@ namespace Test002
         }
         //
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
+
             new Thread(() => 
             {
                 var apiKey = "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";
@@ -69,11 +73,11 @@ namespace Test002
                                 new gd:{2},
                                 ",
                                 kv.Key,
-                                dic1[kv.Key],
-                                dic2[kv.Key]
+                                dic2[kv.Key],
+                                dic1[kv.Key]
                             );
                             content += "\n";
-                            dic1[kv.Key] = dic2[kv.Key];
+                            dic2[kv.Key] = dic1[kv.Key];
                         }
                     }
                     
@@ -100,7 +104,6 @@ namespace Test002
 
 
             }).Start();
-            
 
 
             if (env.IsDevelopment())
@@ -121,6 +124,14 @@ namespace Test002
                 {
                     await Sele(context);
                 });
+
+                
+                endpoints.MapGet("/warn", async context =>
+                {
+                    
+                    
+                    await context.Response.WriteAsync("done\n");
+                });
             });
 
         }
@@ -128,6 +139,7 @@ namespace Test002
         
         public async Task<Dictionary<string,int>> Sele(HttpContext context)
         {
+            
             var chromeOptions = new ChromeOptions();
             chromeOptions.AddArguments("headless");
             IWebDriver driver = new ChromeDriver(
