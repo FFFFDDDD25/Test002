@@ -3,7 +3,7 @@ namespace Test002
 {
     public static class v
     {
-        public const string version = "1000007";
+        public const string version = "1000009";
     }
 }
 

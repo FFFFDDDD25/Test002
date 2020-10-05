@@ -36,6 +36,9 @@ namespace Test002
 
 
         public static Dictionary<string,int> dic2 = null;
+
+
+        static bool first = true;
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
@@ -60,7 +63,13 @@ namespace Test002
                         continue;
                     }
                     
+                    if(first)
+                    {
+                        dic1["Liverpool"] = 5566;
+                    }
 
+
+                    first = false;
 
 
                     var content ="";
@@ -81,9 +90,11 @@ namespace Test002
                                 kv.Value
                             );
                             content += "\n";
-                            dic2[kv.Key] = kv.Value;
                         }
                     }
+                    
+                   dic2 = dic1.ToDictionary(entry => entry.Key,
+                                            entry => entry.Value);
                     
                     if(content!="")
                     {
