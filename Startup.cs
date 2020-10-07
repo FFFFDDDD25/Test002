@@ -14,9 +14,10 @@ using System.Threading;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
-using SendGrid;
-using SendGrid.Helpers.Mail;
 using Google.Cloud.Diagnostics.AspNetCore;
+using FluentEmail.Mailgun;
+using FluentEmail;
+using FluentEmail.Core;
 
 namespace Test002
 {
@@ -32,9 +33,6 @@ namespace Test002
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 
 
-
-
-
         public static Dictionary<string,int> dic2 = null;
 
 
@@ -45,8 +43,6 @@ namespace Test002
 
             new Thread(() => 
             {
-                var apiKey = "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";
-                
                 while(true)
                 {
                     var dic1  = Sele(null).Result;
@@ -98,16 +94,25 @@ namespace Test002
                     
                     if(content!="")
                     {
-                        var response = new SendGridClient(apiKey).SendEmailAsync(MailHelper.CreateSingleEmail(
-                            new EmailAddress("hyfileserver@gmail.com", "這是寄件者名稱"),
-                            new EmailAddress("killuplus300@gmail.com"),
-                            "GCP測試喔",
-                            content,
-                            content
-                            )).Result;
+
+                        
+                        Email.DefaultSender = new MailgunSender(
+                                "sandbox6fa553f028ec4abb84e900ece01eb6da.mailgun.org", // Mailgun Domain
+                                "5f1acad00fa7e047f22117a68e68e8c4-0d2e38f7-fa754434" // Mailgun API Key
+                        ); 
+
+                        var email = Email
+                        .From("killuplus300@gmail.com")
+                        .To("killuplus300@gmail.com")
+                        .Subject("英超淨勝球變化")
+                        .Body(content);
                             
-                        if (response.StatusCode != System.Net.HttpStatusCode.Accepted)
+                            
+                        var response =  email.Send();
+
+                        if (!response.Successful)
                         {
+                            Console.WriteLine(JsonConvert.SerializeObject(response.ErrorMessages));
                         }
                         else
                         {
