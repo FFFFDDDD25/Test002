@@ -19,15 +19,30 @@ using FluentEmail.Mailgun;
 using FluentEmail;
 using FluentEmail.Core;
 
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
 namespace Test002
 {
     public class Startup
     {
         
+        private IConfiguration _config;
+        // Here we are using Dependency Injection to inject the Configuration object
+        public Startup(IConfiguration config)
+        {
+            _config = config;
+        }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+
         }
         //
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,7 +54,9 @@ namespace Test002
         static bool first = true;
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            
 
+            Thread.Sleep(50000);
 
             new Thread(() => 
             {
@@ -95,10 +112,9 @@ namespace Test002
                     if(content!="")
                     {
 
-                        
                         Email.DefaultSender = new MailgunSender(
-                                "sandbox6fa553f028ec4abb84e900ece01eb6da.mailgun.org", // Mailgun Domain
-                                "5f1acad00fa7e047f22117a68e68e8c4-0d2e38f7-fa754434" // Mailgun API Key
+                                _config["Mailgun:Domain"], // Mailgun Domain
+                                _config["Mailgun:APIKey"] // Mailgun API Key
                         ); 
 
                         var email = Email
@@ -112,7 +128,8 @@ namespace Test002
 
                         if (!response.Successful)
                         {
-                            Console.WriteLine(JsonConvert.SerializeObject(response.ErrorMessages));
+                            Console.WriteLine("fail::::"+JsonConvert.SerializeObject(response.ErrorMessages));
+                            
                         }
                         else
                         {
