@@ -113,7 +113,7 @@ namespace Test002
                     {
 
                         Email.DefaultSender = new MailgunSender(
-                                _config["Mailgun:Domain"], // Mailgun Domain
+                                _config["Mailgun:Domain"], //   Mailgun Domain
                                 _config["Mailgun:APIKey"] // Mailgun API Key
                         ); 
 
