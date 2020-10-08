@@ -32,7 +32,7 @@ namespace Test002
     {
         
         private IConfiguration _config;
-        //  Here we are using Dependency Injection to inject the Configuration object
+        //   Here we are using Dependency Injection to inject the Configuration object
         public Startup(IConfiguration config)
         {
             _config = config;
