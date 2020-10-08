@@ -49,14 +49,13 @@ namespace Test002
 
 
         public static Dictionary<string,int> dic2 = null;
+        public static int instanceNum = new Random().Next();
 
 
         static bool first = true;
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             
-
-            Thread.Sleep(50000);
 
             new Thread(() => 
             {
@@ -121,7 +120,7 @@ namespace Test002
                         .From("killuplus300@gmail.com")
                         .To("killuplus300@gmail.com")
                         .Subject("英超淨勝球變化")
-                        .Body(content);
+                        .Body(instanceNum+":::::::"+content);
                             
                             
                         var response =  email.Send();
