@@ -36,26 +36,7 @@ namespace Test002
         public Startup(IConfiguration config)
         {
             _config = config;
-        }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        public void ConfigureServices(IServiceCollection services)
-        {
-
-        }
-        //
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-
-
-        public static Dictionary<string,int> dic2 = null;
-        public static int instanceNum = new Random().Next();
-
-
-        static bool first = true;
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            
 
             new Thread(() => 
             {
@@ -136,13 +117,27 @@ namespace Test002
                     }
                     Thread.Sleep(TimeSpan.FromHours(1));
                 }
-                
-
-
             }).Start();
+        }
+
+        // This method gets called by the runtime. Use this method to add services to the container.
+        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+        public void ConfigureServices(IServiceCollection services)
+        {
+
+        }
+        //
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 
 
-            if (env.IsDevelopment())
+        public static Dictionary<string,int> dic2 = null;
+        public static int instanceNum = new Random().Next();
+
+
+        static bool first = true;
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
@@ -153,7 +148,7 @@ namespace Test002
             {
                 endpoints.MapGet("/", async context =>
                 {
-                    await context.Response.WriteAsync("Hello World! version: "+v.version+"        \n");
+                    await context.Response.WriteAsync(instanceNum+":::::::"+"Hello World! version: "+v.version+"        \n");
                 });
 
                 endpoints.MapGet("/dave", async context =>
@@ -165,7 +160,7 @@ namespace Test002
 
                 endpoints.MapGet("/gan", async context =>
                 {
-                    await context.Response.WriteAsync(JsonConvert.SerializeObject(dic2));
+                    await context.Response.WriteAsync(instanceNum+":::::::"+JsonConvert.SerializeObject(dic2));
                 });
 
                 
