@@ -37,6 +37,18 @@ namespace Test002
         {
             _config = config;
 
+            
+             Email.DefaultSender = new MailgunSender(
+                                _config["Mailgun:Domain"], //   Mailgun Domain
+                                _config["Mailgun:APIKey"] // Mailgun API Key
+                        ); 
+
+                        Email
+                        .From("killuplus300@gmail.com")
+                        .To("killuplus300@gmail.com")
+                        .Subject(instanceNum+":::::::"+"程式開啟")
+                        .Body("").Send();
+
 
             new Thread(() => 
             {
@@ -91,21 +103,13 @@ namespace Test002
                     
                     if(content!="")
                     {
-
-                        Email.DefaultSender = new MailgunSender(
-                                _config["Mailgun:Domain"], //   Mailgun Domain
-                                _config["Mailgun:APIKey"] // Mailgun API Key
-                        ); 
-
-                        var email = Email
+                        var response = Email
                         .From("killuplus300@gmail.com")
                         .To("killuplus300@gmail.com")
                         .Subject("英超淨勝球變化")
-                        .Body(instanceNum+":::::::"+content);
+                        .Body(instanceNum+":::::::"+content).Send();
                             
                             
-                        var response =  email.Send();
-
                         if (!response.Successful)
                         {
                             Console.WriteLine("fail::::"+JsonConvert.SerializeObject(response.ErrorMessages));
