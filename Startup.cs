@@ -43,11 +43,7 @@ namespace Test002
                                 _config["Mailgun:APIKey"] // Mailgun API Key
                         ); 
 
-                        Email
-                        .From("killuplus300@gmail.com")
-                        .To("killuplus300@gmail.com")
-                        .Subject(instanceNum+":::::::"+"程式開啟")
-                        .Body("").Send();
+            Send(instanceNum+":::::::"+"程式開啟","~~~~~~~~如題");
 
 
             new Thread(() => 
@@ -68,13 +64,7 @@ namespace Test002
                         continue;
                     }
                     
-                    if(first)
-                    {
-                        dic1["Liverpool"] = 5566;
-                    }
 
-
-                    first = false;
 
 
                     var content ="";
@@ -95,20 +85,14 @@ namespace Test002
                                 kv.Value
                             );
                             content += "\n";
+
+                            dic2[kv.Key] = kv.Value;
                         }
                     }
                     
-                   dic2 = dic1.ToDictionary(entry => entry.Key,
-                                            entry => entry.Value);
-                    
                     if(content!="")
                     {
-                        var response = Email
-                        .From("killuplus300@gmail.com")
-                        .To("killuplus300@gmail.com")
-                        .Subject("英超淨勝球變化")
-                        .Body(instanceNum+":::::::"+content).Send();
-                            
+                        var response =  Send("英超淨勝球變化",instanceNum+":::::::"+content);
                             
                         if (!response.Successful)
                         {
@@ -122,6 +106,15 @@ namespace Test002
                     Thread.Sleep(TimeSpan.FromHours(1));
                 }
             }).Start();
+        }
+
+        public FluentEmail.Core.Models.SendResponse Send(string Subject, string Body)
+        {
+              return          Email
+                        .From("killuplus300@gmail.com")
+                        .To("killuplus300@gmail.com")
+                        .Subject(Subject)
+                        .Body(Body).Send();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -138,7 +131,7 @@ namespace Test002
         public static int instanceNum = new Random().Next();
 
 
-        static bool first = true;
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
              if (env.IsDevelopment())
