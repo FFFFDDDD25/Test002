@@ -70,15 +70,15 @@ namespace Test002
                     var content ="";
 
                     
-                    foreach (KeyValuePair<string, int> kv in dic1)
+                    foreach (KeyValuePair<string, string> kv in dic1)
                     {
                         if(kv.Value != dic2[kv.Key])
                         {
                             content += String.Format(
                                 @"
                                 team name:{0},
-                                ori gd:{1},
-                                new gd:{2},
+                                ori pt,gd:{1},
+                                new pt,gd:{2},
                                 ",
                                 kv.Key,
                                 dic2[kv.Key],
@@ -127,7 +127,7 @@ namespace Test002
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 
 
-        public static Dictionary<string,int> dic2 = null;
+        public static Dictionary<string,string> dic2 = null;
         public static int instanceNum = new Random().Next();
 
 
@@ -170,7 +170,7 @@ namespace Test002
         }
 
         
-        public async Task<Dictionary<string,int>> Sele(HttpContext context)
+        public async Task<Dictionary<string,string>> Sele(HttpContext context)
         {
             
             var chromeOptions = new ChromeOptions();
@@ -179,7 +179,7 @@ namespace Test002
                 ChromeDriverService.CreateDefaultService(),
                 chromeOptions,
                 TimeSpan.FromSeconds(30));
-            var dic = new Dictionary<string,int>();
+            var dic = new Dictionary<string,string>();
             
             try
             {
@@ -189,30 +189,38 @@ namespace Test002
 
 
                 MatchCollection  matchesGD=null;
+                MatchCollection  matchesPT=null;
                 MatchCollection  matchesNAME=null;
                 {
                     var 原始 = "後面註解"; //   \">4</td> <td class=\"league-gd\">+8</td> <td class=\
                     matchesGD = new Regex(@"<td class=\\""league-gd\\"">(.{1,4})</td>",RegexOptions.Compiled).Matches(msg);
                 }
                 
+                {
+                    var 原始 = "後面註解"; //<td class="league-points"><span class="point">13</span></td>
+                    matchesPT = new Regex(@"<td class=\\""league-points\\""><span class=\\""point\\"">(.{1,5})</span></td>",RegexOptions.Compiled).Matches(msg);
+                }
 
                 {
                     var 原始 = "後面註解"; //  href=\"https://www.bt.com/sport/football/leicester-city\">Leicester City</a></td> <td clas
                     matchesNAME = new Regex(@"href=\\""https://www.bt.com.sport.football/.{1,30}\\"">(.{1,30})</a></td>",RegexOptions.Compiled).Matches(msg);
                 }
 
-                if(matchesGD.Count == matchesNAME.Count)
+                if(
+                matchesGD.Count == matchesNAME.Count &&
+                matchesGD.Count == matchesPT.Count
+                )
                 {
                     for(int i=0;i<matchesGD.Count;i++)
                     {
                         dic.Add(
                             matchesNAME[i].Groups[1].Value,
-                            Convert.ToInt32(matchesGD[i].Groups[1].Value)
+                            matchesPT[i].Groups[1].Value+" , "+matchesGD[i].Groups[1].Value
                             );
                     }
                 }
 
-
+                Console.Write(JsonConvert.SerializeObject(dic));
 
 
                 if(context!=null)
