@@ -172,7 +172,6 @@ namespace Test002
         
         public async Task<Dictionary<string,string>> Sele(HttpContext context)
         {
-            
             var chromeOptions = new ChromeOptions();
             chromeOptions.AddArguments("headless");
             IWebDriver driver = new ChromeDriver(
