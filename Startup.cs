@@ -254,8 +254,8 @@ namespace Test002
 
                     for(int j=1;j<mcs.Count;j++) //j從1開始
                     {
-                        value += mcs[j][i].Groups[craws[j].group].Value;
-                        value += " , ";
+                        value += (craws[j].name+"="+mcs[j][i].Groups[craws[j].group].Value);
+                        value += " ||| ";
                     }
                     
                     
