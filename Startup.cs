@@ -28,11 +28,85 @@ using Microsoft.Extensions.Hosting;
 
 namespace Test002
 {
+
+
+     public class CrawlModel
+     {
+        public string name;
+        public string regex;
+        public int group;
+
+        public CrawlModel(string name,string regex, int group)
+        {
+            this.name = name;
+            this.regex = regex;
+            this.group = group;
+        } 
+            
+     }
+
     public class Startup
     {
         
         private IConfiguration _config;
         //   Here we are using Dependency Injection to inject the Configuration object
+
+
+
+        public void Compare_Send_WaitHour(ref Dictionary<string,string> dic1,ref Dictionary<string,string> dic2,string emailTitle)
+        {
+                    if(dic1==null || dic1.Count==0)
+                    {
+                        return;
+                    }
+
+                    if(dic2==null)
+                    {
+                        dic2 = dic1.ToDictionary(entry => entry.Key,
+                                               entry => entry.Value);
+                        return;
+                    }
+                    
+                    var content ="";
+
+                    foreach (KeyValuePair<string, string> kv in dic1)
+                    {
+                        if(kv.Value != dic2[kv.Key])
+                        {
+                            content += String.Format(
+                                @"
+                                target : {0}
+                                origin : {1}
+                                update : {2}
+                                ",
+                                kv.Key,
+                                dic2[kv.Key],
+                                kv.Value
+                            );
+                            content += "\n";
+
+                            dic2[kv.Key] = kv.Value;
+                        }
+                    }
+                    
+                    if(content!="")
+                    {
+                        var response =  Send(emailTitle,instanceNum+":::::::"+content);
+                            
+                        if (!response.Successful)
+                        {
+                            Console.WriteLine("fail::::"+JsonConvert.SerializeObject(response.ErrorMessages));
+                            
+                        }
+                        else
+                        {
+                        }
+                    }
+                    Thread.Sleep(TimeSpan.FromHours(1));
+        }
+
+        public static bool first = true;
+
         public Startup(IConfiguration config)
         {
             _config = config;
@@ -48,62 +122,27 @@ namespace Test002
 
             new Thread(() => 
             {
+                Dictionary<string,string> dic2 = null;
                 while(true)
                 {
-                    var dic1  = Sele(null).Result;
-
-                    if(dic1==null || dic1.Count==0)
-                    {
-                        continue;
-                    }
-
-                    if(dic2==null)
-                    {
-                        dic2 = dic1.ToDictionary(entry => entry.Key,
-                                               entry => entry.Value);
-                        continue;
-                    }
-                    
-
-
-
-                    var content ="";
-
-                    
-                    foreach (KeyValuePair<string, string> kv in dic1)
-                    {
-                        if(kv.Value != dic2[kv.Key])
-                        {
-                            content += String.Format(
-                                @"
-                                team name:{0},
-                                ori pt,gd:{1},
-                                new pt,gd:{2},
-                                ",
-                                kv.Key,
-                                dic2[kv.Key],
-                                kv.Value
-                            );
-                            content += "\n";
-
-                            dic2[kv.Key] = kv.Value;
+                    var dic1  = Sele(
+                        null,
+                        "https://www.bt.com/sport/football/premier-league/table",
+                        20,
+                        new List<CrawlModel>(){
+                            new CrawlModel("team",@"href=\\""https://www.bt.com.sport.football/.{1,30}\\"">(.{1,30})</a></td>",1),//  href=\"https://www.bt.com/sport/football/leicester-city\">Leicester City</a></td> <td clas
+                            new CrawlModel("pt",@"<td class=\\""league-points\\""><span class=\\""point\\"">(.{1,5})</span></td>",1),//<td class="league-points"><span class="point">13</span></td>
+                            new CrawlModel("gd",@"<td class=\\""league-gd\\"">(.{1,4})</td>",1)//   \">4</td> <td class=\"league-gd\">+8</td> <td class=\
                         }
-                    }
-                    
-                    if(content!="")
+                        ).Result;
+
+                    if(first)
                     {
-                        var response =  Send("英超淨勝球變化",instanceNum+":::::::"+content);
-                            
-                        if (!response.Successful)
-                        {
-                            Console.WriteLine("fail::::"+JsonConvert.SerializeObject(response.ErrorMessages));
-                            
-                        }
-                        else
-                        {
-                        }
+                        dic1["Everton"]="第一次艾弗頓";
+                        first = false;
                     }
-                    Thread.Sleep(TimeSpan.FromHours(1));
+
+                    Compare_Send_WaitHour(ref dic1,ref dic2,"英超變化");
                 }
             }).Start();
         }
@@ -127,7 +166,6 @@ namespace Test002
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 
 
-        public static Dictionary<string,string> dic2 = null;
         public static int instanceNum = new Random().Next();
 
 
@@ -148,18 +186,21 @@ namespace Test002
                     await context.Response.WriteAsync(instanceNum+":::::::"+"Hello World! version: "+v.version+"        \n");
                 });
 
+
+
                 endpoints.MapGet("/dave", async context =>
                 {
-                    await Sele(context);
+                    await Sele(
+                        context,
+                        "https://www.bt.com/sport/football/premier-league/table",
+                        20,
+                        new List<CrawlModel>(){
+                            new CrawlModel("team",@"href=\\""https://www.bt.com.sport.football/.{1,30}\\"">(.{1,30})</a></td>",1),
+                            new CrawlModel("pt",@"<td class=\\""league-points\\""><span class=\\""point\\"">(.{1,5})</span></td>",1),
+                            new CrawlModel("gd",@"<td class=\\""league-gd\\"">(.{1,4})</td>",1)
+                        }
+                        );
                 });
-
-                
-
-                endpoints.MapGet("/gan", async context =>
-                {
-                    await context.Response.WriteAsync(instanceNum+":::::::"+JsonConvert.SerializeObject(dic2));
-                });
-
                 
                 endpoints.MapGet("/warn", async context =>
                 {
@@ -170,8 +211,9 @@ namespace Test002
         }
 
         
-        public async Task<Dictionary<string,string>> Sele(HttpContext context)
+        public async Task<Dictionary<string,string>> Sele(HttpContext context, string url, int count,List<CrawlModel> craws)
         {
+
             var chromeOptions = new ChromeOptions();
             chromeOptions.AddArguments("headless");
             IWebDriver driver = new ChromeDriver(
@@ -182,42 +224,51 @@ namespace Test002
             
             try
             {
-                driver.Navigate().GoToUrl("https://www.bt.com/sport/football/premier-league/table");//開啟網頁 這行一般花兩~三秒
+                driver.Navigate().GoToUrl(url);//開啟網頁 這行一般花兩~三秒
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(15);//隱式等待 - 直到畫面跑出資料才往下執行
                 var msg = JsonConvert.SerializeObject(driver.PageSource);
 
 
-                MatchCollection  matchesGD=null;
-                MatchCollection  matchesPT=null;
-                MatchCollection  matchesNAME=null;
+                List<MatchCollection> mcs = new List<MatchCollection>();
+                foreach(var craw in craws)
                 {
-                    var 原始 = "後面註解"; //   \">4</td> <td class=\"league-gd\">+8</td> <td class=\
-                    matchesGD = new Regex(@"<td class=\\""league-gd\\"">(.{1,4})</td>",RegexOptions.Compiled).Matches(msg);
-                }
-                
-                {
-                    var 原始 = "後面註解"; //<td class="league-points"><span class="point">13</span></td>
-                    matchesPT = new Regex(@"<td class=\\""league-points\\""><span class=\\""point\\"">(.{1,5})</span></td>",RegexOptions.Compiled).Matches(msg);
+                    mcs.Add(new Regex(craw.regex,RegexOptions.Compiled).Matches(msg));
                 }
 
-                {
-                    var 原始 = "後面註解"; //  href=\"https://www.bt.com/sport/football/leicester-city\">Leicester City</a></td> <td clas
-                    matchesNAME = new Regex(@"href=\\""https://www.bt.com.sport.football/.{1,30}\\"">(.{1,30})</a></td>",RegexOptions.Compiled).Matches(msg);
-                }
 
-                if(
-                matchesGD.Count == matchesNAME.Count &&
-                matchesGD.Count == matchesPT.Count
-                )
+
+                var ok = true;
+                foreach(var mc in mcs)
                 {
-                    for(int i=0;i<matchesGD.Count;i++)
+                    if(mc.Count != count)
                     {
-                        dic.Add(
-                            matchesNAME[i].Groups[1].Value,
-                            matchesPT[i].Groups[1].Value+" , "+matchesGD[i].Groups[1].Value
-                            );
+                        ok = false;
                     }
                 }
+
+                if(ok)
+                {
+                  for(int i=0;i<count;i++)
+                  {
+                    string value = "";
+
+                    for(int j=1;j<mcs.Count;j++) //j從1開始
+                    {
+                        value += mcs[j][i].Groups[craws[j].group].Value;
+                        value += " , ";
+                    }
+                    
+                    
+                    dic.Add(
+                        mcs[0][i].Groups[craws[0].group].Value,
+                        value
+                        );
+                  }
+                }
+
+
+
+
 
                 Console.Write(JsonConvert.SerializeObject(dic));
 
