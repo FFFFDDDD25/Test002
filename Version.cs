@@ -3,6 +3,6 @@ namespace Test002
 {
     public static class v
     {
-        public const string version = "1000020";
+        public const string version = "1000021";
     }
 }
