@@ -26,6 +26,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+using System;
+using System.Net;
+using HtmlAgilityPack;
+using System.IO;
+using System.Text;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Collections;
+using System.Collections.Generic;
+
 namespace Test002
 {
 
@@ -53,7 +63,7 @@ namespace Test002
 
 
 
-        public void Compare_Send_WaitHour(ref Dictionary<string,string> dic1,ref Dictionary<string,string> dic2,string emailTitle)
+        public void Compare_Send_WaitHour(Dictionary<string,string> dic1,ref Dictionary<string,string> dic2,string emailTitle)
         {
                     if(dic1==null || dic1.Count==0)
                     {
@@ -71,23 +81,54 @@ namespace Test002
 
                     foreach (KeyValuePair<string, string> kv in dic1)
                     {
-                        if(kv.Value != dic2[kv.Key])
+                        if(!dic2.ContainsKey(kv.Key))
+                        {
+                            content += String.Format(
+                                @"
+                                target : {0}
+                                origin : {1}
+                                insert : {2}
+                                ",kv.Key,"none",kv.Value);content += "\n";
+
+                                dic2[kv.Key] = kv.Value;
+                        }
+                        else if(kv.Value != dic2[kv.Key])
                         {
                             content += String.Format(
                                 @"
                                 target : {0}
                                 origin : {1}
                                 update : {2}
-                                ",
-                                kv.Key,
-                                dic2[kv.Key],
-                                kv.Value
-                            );
-                            content += "\n";
+                                ",kv.Key,dic2[kv.Key],kv.Value);content += "\n";
 
-                            dic2[kv.Key] = kv.Value;
+                                dic2[kv.Key] = kv.Value;
                         }
                     }
+
+                    List<string> temp = new List<string>();
+                    foreach (KeyValuePair<string, string> kv in dic2)
+                    {
+                        if(!dic1.ContainsKey(kv.Key))
+                        {
+                            content += String.Format(
+                                @"
+                                target : {0}
+                                origin : {1}
+                                delete
+                                ",kv.Key,kv.Value);content += "\n";
+                            
+                            temp.Add(kv.Key);
+                        }
+                    }
+                    foreach(var t in temp)
+                    {
+                        dic2.Remove(t);
+                    }
+
+
+
+
+
                     
                     if(content!="")
                     {
@@ -105,8 +146,6 @@ namespace Test002
                     Thread.Sleep(TimeSpan.FromHours(1));
         }
 
-        public static bool first = true;
-
         public Startup(IConfiguration config)
         {
             _config = config;
@@ -118,6 +157,124 @@ namespace Test002
                         ); 
 
             Send(instanceNum+":::::::"+"程式開啟","~~~~~~~~如題");
+
+
+
+        //  http://cup2020.whfa.football.idv.tw/schedule.php?level=3 
+
+
+
+            bool first = true;
+
+            new Thread(() => 
+            {
+                Dictionary<string,string> dic2 = null;
+                while(true)
+                {
+                   Func<Dictionary<string,string>> GetDic1 = ()=> {
+                       
+                                                    Dictionary<string, string> dic = new Dictionary<string, string>();
+
+                                                    
+                                                    var doc = new HtmlDocument();
+                                                    doc.Load(new MemoryStream(new WebClient().DownloadData("http://cup2020.whfa.football.idv.tw/schedule.php?level=3")), Encoding.Default);
+
+                                                    //<table width="100%" cellpadding="0" cellspacing="0">
+                                                    //   <tbody>
+                                                    //      <tr bgcolor="#000644">
+                                                    //         <td height="20" colspan="6">
+                                                    //            <div class="p_white">3月7日</div>
+                                                    //         </td>
+                                                    //      </tr>
+                                                    //      <tr>
+                                                    //         <td>熱血足球 (紅黑)</td>
+                                                    //         <td>v</td>
+                                                    //         <td>河濱FC (粉紅)</td>
+                                                    //         <td>1400-1510</td>
+                                                    //         <td><a href="http://cup2020.whfa.football.idv.tw/schedule.php?level=3#"><img border="0" src="./109年大臺北社會人足球聯賽官方網站_files/arrow3.gif"></a></td>
+                                                    //         <td>
+                                                    //            <span class="style1">0 : 0
+                                                    //            </span>
+                                                    //         </td>
+                                                    //      </tr>
+                                                    //   </tbody>
+                                                    //</table>
+                                                    var linkNodes = doc.DocumentNode.SelectNodes(
+                                                        "/html/body/div[2]/table/tbody/tr[1]/td/div/div[1]/font/table/tbody/tr/td/div[2]/div/div/div/table/tbody/tr"
+                                                        .Replace("/tbody", ""));
+
+
+                                                    string currentDate = null;
+                                                    foreach (var linkNode in linkNodes)
+                                                    {
+                                                        if(linkNode.ChildNodes.Count == 3)
+                                                        {
+                                                            var test = linkNode.ChildNodes[1].InnerText;
+                                                            if(test.Contains("月") && test.Contains("日"))
+                                                            {
+                                                                currentDate = test;
+                                                            }
+                                                            else if(test == "&nbsp;")
+                                                            {
+                                                            }
+                                                            else
+                                                            {
+                                                                Console.WriteLine("錯誤1");
+                                                                return null;
+                                                            }
+
+                                                        }
+                                                        else if (linkNode.ChildNodes.Count == 13)
+                                                        {
+                                                            var test = linkNode.ChildNodes[3].InnerText;
+                                                            if (test == "v")
+                                                            {
+                                                                if (currentDate == null)
+                                                                {
+                                                                    Console.WriteLine("錯誤2");
+                                                                    return null;
+                                                                }
+                                                                else
+                                                                {
+                                                                    var key = "";
+                                                                    key = ("日期:"+currentDate+"  ");
+                                                                    key += ("時間:" + linkNode.ChildNodes[7].InnerText + "  ");
+                                                                    key += ("主隊:" + linkNode.ChildNodes[1].InnerText + "  ");
+                                                                    key += ("客隊:" + linkNode.ChildNodes[5].InnerText + "  ");
+                                                                    dic[key] = linkNode.ChildNodes[11].InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "");
+                                                                }
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            Console.WriteLine("錯誤3");
+                                                            return null;
+                                                        }
+                                                    }
+                                                    return dic;
+
+
+                   };
+ 
+                    var dic1 = GetDic1();
+
+                    if(first)
+                    {
+                        dic1["日期:4月11日  時間:1640-1750  主隊:熱血足球 (紅黑)  客隊:挑戰者 (紅黑)  "]="喔第一次熱血vs挑戰";
+                        dic1["隨便key"]="隨便value";
+                        first=false;
+                    }
+
+                    Compare_Send_WaitHour(dic1,ref dic2,"社會人變化");
+                }
+            }).Start();
+
+
+
+
+            return;
+
+
 
 
             new Thread(() => 
@@ -136,15 +293,12 @@ namespace Test002
                         }
                         ).Result;
 
-                    if(first)
-                    {
-                        dic1["Everton"]="第一次艾弗頓";
-                        first = false;
-                    }
-
-                    Compare_Send_WaitHour(ref dic1,ref dic2,"英超變化");
+                    Compare_Send_WaitHour(dic1,ref dic2,"英超變化");
                 }
             }).Start();
+
+
+            
         }
 
         public FluentEmail.Core.Models.SendResponse Send(string Subject, string Body)
@@ -254,8 +408,8 @@ namespace Test002
 
                     for(int j=1;j<mcs.Count;j++) //j從1開始
                     {
+                        value += " ||| ";//這邊剛改沒上傳
                         value += (craws[j].name+"="+mcs[j][i].Groups[craws[j].group].Value);
-                        value += " ||| ";
                     }
                     
                     
