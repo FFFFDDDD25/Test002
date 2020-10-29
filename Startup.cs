@@ -177,7 +177,7 @@ namespace Test002
 
                                                     
                                                     var doc = new HtmlDocument();
-                                                    doc.Load(new MemoryStream(new WebClient().DownloadData("http://cup2020.whfa.football.idv.tw/schedule.php?level=3")), Encoding.Default);
+                                                    doc.Load(new MemoryStream(new WebClient().DownloadData("http://cup2020.whfa.football.idv.tw/schedule.php?level=3")), Encoding.UTF8);
 
                                                     //<table width="100%" cellpadding="0" cellspacing="0">
                                                     //   <tbody>
@@ -270,9 +270,6 @@ namespace Test002
             }).Start();
 
 
-
-
-            return;
 
 
 
