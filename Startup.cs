@@ -164,11 +164,10 @@ namespace Test002
 
 
 
-            bool first = true;
-
             new Thread(() => 
             {
                 Dictionary<string,string> dic2 = null;
+                bool first = true;
                 while(true)
                 {
                    Func<Dictionary<string,string>> GetDic1 = ()=> {
@@ -277,6 +276,7 @@ namespace Test002
             new Thread(() => 
             {
                 Dictionary<string,string> dic2 = null;
+                bool first = true;
                 while(true)
                 {
                     var dic1  = Sele(
@@ -289,6 +289,14 @@ namespace Test002
                             new CrawlModel("gd",@"<td class=\\""league-gd\\"">(.{1,4})</td>",1)//   \">4</td> <td class=\"league-gd\">+8</td> <td class=\
                         }
                         ).Result;
+
+                        
+                    if(first)
+                    {
+                        dic1["Liverpool"]="第一次利物浦";
+                        dic1["隨便key"]="隨便value";
+                        first=false;
+                    }
 
                     Compare_Send_WaitHour(dic1,ref dic2,"英超變化");
                 }
