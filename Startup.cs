@@ -295,6 +295,7 @@ namespace Test002
                     {
                         dic1["Liverpool"]="第一次利物浦";
                         dic1["隨便key"]="隨便value";
+                        dic1.Remove("Everton");
                         first=false;
                     }
 
