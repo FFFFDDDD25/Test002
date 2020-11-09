@@ -18,19 +18,19 @@ RUN dotnet publish -c Release -o out
 
 
 CMD ls
-RUN sleep 1
+RUN sleep 10
 CMD ls
-RUN sleep 1
+RUN sleep 10
 CMD ls
-RUN sleep 1
+RUN sleep 10
 CMD ls
-RUN sleep 1
+RUN sleep 10
 CMD ls
-RUN sleep 1
+RUN sleep 10
 CMD ls
-RUN sleep 1
+RUN sleep 10
 CMD ls
-RUN sleep 1
+RUN sleep 10
                             
 
 # Build runtime image
