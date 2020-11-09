@@ -13,27 +13,31 @@ COPY . ./
 
 
 RUN ls
-sleep 1
+RUN sleep 1
 RUN ls
-sleep 1
+RUN sleep 1
 RUN ls
-sleep 1
+RUN sleep 1
 RUN ls
-sleep 1
+RUN sleep 1
 RUN ls
-sleep 1
+RUN sleep 1
 RUN ls
-sleep 1
+RUN sleep 1
 RUN ls
-sleep 1
+RUN sleep 1
 RUN ls
-sleep 1
+RUN sleep 1
 RUN ls
-sleep 1
+RUN sleep 1
 RUN ls
-sleep 1
+RUN sleep 1
 RUN ls
-sleep 1
+RUN sleep 1
+RUN ls
+RUN sleep 1
+RUN ls
+RUN sleep 1
 
 
 RUN dotnet publish -c Release -o out
