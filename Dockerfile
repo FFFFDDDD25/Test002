@@ -12,6 +12,30 @@ RUN dotnet restore
 COPY . ./
 
 
+RUN ls
+sleep 1
+RUN ls
+sleep 1
+RUN ls
+sleep 1
+RUN ls
+sleep 1
+RUN ls
+sleep 1
+RUN ls
+sleep 1
+RUN ls
+sleep 1
+RUN ls
+sleep 1
+RUN ls
+sleep 1
+RUN ls
+sleep 1
+RUN ls
+sleep 1
+
+
 RUN dotnet publish -c Release -o out
 
 
