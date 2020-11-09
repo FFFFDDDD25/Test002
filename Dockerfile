@@ -17,6 +17,20 @@ COPY . ./
 RUN dotnet publish -c Release -o out
 
 
+CMD ls
+RUN sleep 1
+CMD ls
+RUN sleep 1
+CMD ls
+RUN sleep 1
+CMD ls
+RUN sleep 1
+CMD ls
+RUN sleep 1
+CMD ls
+RUN sleep 1
+CMD ls
+RUN sleep 1
                             
 
 # Build runtime image
