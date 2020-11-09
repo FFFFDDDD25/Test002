@@ -17,33 +17,29 @@ COPY . ./
 RUN dotnet publish -c Release -o out
 
 
-COPY sdfsdf.txt ./
+COPY ./sdfsdf.txt ./
 RUN sleep 1
-COPY sdfsdf.txt ./
+COPY ./sdfsdf.txt ./
 RUN sleep 1
-COPY sdfsdf.txt ./
+COPY ./sdfsdf.txt ./
 RUN sleep 1
-COPY sdfsdf.txt ./
+COPY ./sdfsdf.txt ./
 RUN sleep 1
-COPY sdfsdf.txt ./
+COPY ./sdfsdf.txt ./
 RUN sleep 1
-COPY sdfsdf.txt ./
+COPY ./sdfsdf.txt ./
 RUN sleep 1
-COPY sdfsdf.txt ./
+COPY ./sdfsdf.txt ./
 RUN sleep 1
-COPY sdfsdf.txt ./
+COPY ./sdfsdf.txt ./
 RUN sleep 1
-COPY sdfsdf.txt ./
+COPY ./sdfsdf.txt ./
 RUN sleep 1
-COPY sdfsdf.txt ./
+COPY ./sdfsdf.txt ./
 RUN sleep 1
-COPY sdfsdf.txt ./
+COPY ./sdfsdf.txt ./
 RUN sleep 1
-COPY sdfsdf.txt ./
-RUN sleep 1
-COPY sdfsdf.txt ./
-RUN sleep 1
-COPY sdfsdf.txt ./
+COPY ./sdfsdf.txt ./
 RUN sleep 1
                             
 
