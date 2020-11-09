@@ -288,7 +288,7 @@ namespace Test002
                             
                             new CrawlModel("gd",@"<td class=\\""league-gd\\"">(.{1,4})</td>",1),//   \">4</td> <td class=\"league-gd\">+8</td> <td class=\
 
-                           new CrawlModel("rk",@"<span class=\\""point\\"">(.{1,2})</span>",1), //<span class="rank">11</span>
+                           new CrawlModel("rk",@"<span class=\\""rank\\"">(.{1,2})</span>",1), //<span class="rank">11</span>
 
                             new CrawlModel("pt",@"<td class=\\""league-points\\""><span class=\\""point\\"">(.{1,5})</span></td>",1)//<td class="league-points"><span class="point">13</span></td>
                         }
