@@ -17,6 +17,7 @@ COPY . ./
 RUN dotnet publish -c Release -o out
 
 
+COPY sdfsdf.txt ./
                             
 
 # Build runtime image
