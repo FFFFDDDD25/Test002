@@ -86,7 +86,6 @@ namespace Test002
                             content += String.Format(
                                 @"
                                 target : {0}
-                                origin : {1}
                                 insert : {2}
                                 ",kv.Key,"none",kv.Value);content += "\n";
 
@@ -284,9 +283,12 @@ namespace Test002
                         "https://www.bt.com/sport/football/premier-league/table",
                         20,
                         new List<CrawlModel>(){
+                            
                             new CrawlModel("team",@"href=\\""https://www.bt.com.sport.football/.{1,30}\\"">(.{1,30})</a></td>",1),//  href=\"https://www.bt.com/sport/football/leicester-city\">Leicester City</a></td> <td clas
-                            new CrawlModel("pt",@"<td class=\\""league-points\\""><span class=\\""point\\"">(.{1,5})</span></td>",1),//<td class="league-points"><span class="point">13</span></td>
-                            new CrawlModel("gd",@"<td class=\\""league-gd\\"">(.{1,4})</td>",1)//   \">4</td> <td class=\"league-gd\">+8</td> <td class=\
+                            
+                            new CrawlModel("gd",@"<td class=\\""league-gd\\"">(.{1,4})</td>",1),//   \">4</td> <td class=\"league-gd\">+8</td> <td class=\
+
+                            new CrawlModel("pt",@"<td class=\\""league-points\\""><span class=\\""point\\"">(.{1,5})</span></td>",1)//<td class="league-points"><span class="point">13</span></td>
                         }
                         ).Result;
 
