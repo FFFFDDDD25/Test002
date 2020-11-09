@@ -259,7 +259,7 @@ namespace Test002
                     if(first)
                     {
                         dic1["日期:4月11日  時間:1640-1750  主隊:熱血足球 (紅黑)  客隊:挑戰者 (紅黑)  "]="喔第一次熱血vs挑戰";
-                        dic1["隨便key"]="隨便value";
+                        dic1["隨便key~"]="隨便value~";
                         first=false;
                     }
 
