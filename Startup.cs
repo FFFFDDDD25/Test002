@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
@@ -149,7 +150,7 @@ namespace Test002
         {
             _config = config;
 
-            
+
              Email.DefaultSender = new MailgunSender(
                                 _config["Mailgun:Domain"], //   Mailgun Domain
                                 _config["Mailgun:APIKey"] // Mailgun API Key
@@ -159,7 +160,95 @@ namespace Test002
 
 
 
+            new Thread(() => 
+            {
+                HashSet<string> hash = new HashSet<string>();
+                while(true)
+                {
+                   Func<int> GetDic1 = ()=> {
+                                                    Dictionary<string, string> dic = new Dictionary<string, string>();
+
+                                                    var 網址1 = "https://www.ptt.cc/bbs/Test/index.html";
+                                                    var doc = new HtmlDocument();
+                                                    
+                                                    for(int i=0;i<3;i++){
+
+                                                        doc.Load(new MemoryStream(new WebClient().DownloadData(網址1)), Encoding.UTF8);
+
+                                                        var oneNode =  doc.DocumentNode.SelectSingleNode(
+                                                            "/html/body/div[2]/div[1]/div/div[2]/a[2]"
+                                                            .Replace("/tbody", ""));
+                                                            
+                                                        var testsdf = new Regex(@"href=\""(.+)\""",RegexOptions.Compiled).Matches(oneNode.OuterHtml);
+                                                        
+                                                        網址1 = @"https://www.ptt.cc/"+testsdf[0].Groups[1];
+
+
+                                                        //"/html/body/div[2]/div[2]/div[所有可能數字]/div[2]/a"
+                                                        var linkNodes = doc.DocumentNode.SelectNodes(
+                                                            "/html/body/div[2]/div[2]/div/div[2]/a"
+                                                            .Replace("/tbody", ""));
+
+                                                        bool hasNew = false;
+                                                        foreach (var linkNode in linkNodes)
+                                                        {
+                                                            var test = new Regex(@"a href=\""(.+)\""",RegexOptions.Compiled).Matches(linkNode.OuterHtml);
+                                                            
+                                                            var 網址2 = @"https://www.ptt.cc/"+test[0].Groups[1];
+                                                            Console.WriteLine("網址2  "+網址2+"  "+linkNode.InnerText);
+
+
+                                                            if(!hash.Contains(網址2))
+                                                            {
+                                                                hasNew = true;
+                                                            }
+                                                            hash.Add(網址2);
+
+                                                            var doc2 = new HtmlDocument();
+                                                            doc2.Load(new MemoryStream(new WebClient().DownloadData(網址2)), Encoding.UTF8);
+                                                            var oneNode2 =  doc2.DocumentNode.SelectSingleNode(
+                                                                @"/html/body/div[3]/div[1]"
+                                                                .Replace("/tbody", ""));
+        
+                                                            //Console.WriteLine("內容:::::  "+oneNode2.InnerText);
+
+                                                            if(oneNode2.InnerText.Contains("asdf")){
+                                                                Send(instanceNum+":::::::"+"找到批踢踢 asdf",oneNode2.InnerText);
+                                                            }
+
+
+                                                        }
+                                                        if(!hasNew){
+                                                             Send(instanceNum+":::::::"+"找到批踢踢 公告","沒新的");
+                                                            return 1;
+                                                        }else{
+                                                             Send(instanceNum+":::::::"+"找到批踢踢 公告","有新的");
+                                                        }
+                                                    }
+                       return 1;
+                   };
+ 
+                    GetDic1();
+                    Console.WriteLine("eeeennndddd");
+                    Thread.Sleep(TimeSpan.FromMinutes(10));
+                }
+            }).Start();
+
+
+
+
+            
+            return;
+
         //  http://cup2020.whfa.football.idv.tw/schedule.php?level=3 
+
+
+
+
+
+
+
+
 
 
 
@@ -287,8 +376,6 @@ namespace Test002
                             new CrawlModel("team",@"href=\\""https://www.bt.com.sport.football/.{1,30}\\"">(.{1,30})</a></td>",1),//  href=\"https://www.bt.com/sport/football/leicester-city\">Leicester City</a></td> <td clas
                             
                             new CrawlModel("gd",@"<td class=\\""league-gd\\"">(.{1,4})</td>",1),//   \">4</td> <td class=\"league-gd\">+8</td> <td class=\
-
-                           new CrawlModel("rk",@"<span class=\\""rank\\"">(.{1,2})</span>",1), //<span class="rank">11</span>
 
                             new CrawlModel("pt",@"<td class=\\""league-points\\""><span class=\\""point\\"">(.{1,5})</span></td>",1)//<td class="league-points"><span class="point">13</span></td>
                         }
