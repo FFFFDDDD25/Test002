@@ -198,11 +198,15 @@ namespace Test002
                                                             Console.WriteLine("網址2  "+網址2+"  "+linkNode.InnerText);
 
 
-                                                            if(!hash.Contains(網址2))
+                                                            if(hash.Contains(網址2))
+                                                            {
+                                                                continue;
+                                                            }
+                                                            else
                                                             {
                                                                 hasNew = true;
+                                                                hash.Add(網址2);
                                                             }
-                                                            hash.Add(網址2);
 
                                                             var doc2 = new HtmlDocument();
                                                             doc2.Load(new MemoryStream(new WebClient().DownloadData(網址2)), Encoding.UTF8);
@@ -219,7 +223,7 @@ namespace Test002
 
                                                         }
                                                         if(!hasNew){
-                                                             Send(instanceNum+":::::::"+"找到批踢踢 公告","沒新的");
+                                                            Send(instanceNum+":::::::"+"找到批踢踢 公告","沒新的");
                                                             return 1;
                                                         }else{
                                                              Send(instanceNum+":::::::"+"找到批踢踢 公告","有新的");
