@@ -146,29 +146,9 @@ namespace Test002
                     Thread.Sleep(TimeSpan.FromHours(1));
         }
 
-        public Startup(IConfiguration config)
+        public int GetPtt(ref HashSet<string> hash,string 網址1,List<string> 目標們)
         {
-            _config = config;
 
-
-             Email.DefaultSender = new MailgunSender(
-                                _config["Mailgun:Domain"], //   Mailgun Domain
-                                _config["Mailgun:APIKey"] // Mailgun API Key
-                        ); 
-
-            Send(instanceNum+":::::::"+"程式開啟","~~~~~~~~如題");
-
-
-
-            new Thread(() => 
-            {
-                HashSet<string> hash = new HashSet<string>();
-                while(true)
-                {
-                   Func<int> GetDic1 = ()=> {
-                                                    Dictionary<string, string> dic = new Dictionary<string, string>();
-
-                                                    var 網址1 = "https://www.ptt.cc/bbs/Test/index.html";
                                                     var doc = new HtmlDocument();
                                                     
                                                     for(int i=0;i<3;i++){
@@ -195,7 +175,6 @@ namespace Test002
                                                             var test = new Regex(@"a href=\""(.+)\""",RegexOptions.Compiled).Matches(linkNode.OuterHtml);
                                                             
                                                             var 網址2 = @"https://www.ptt.cc/"+test[0].Groups[1];
-                                                            Console.WriteLine("網址2  "+網址2+"  "+linkNode.InnerText);
 
 
                                                             if(hash.Contains(網址2))
@@ -216,39 +195,56 @@ namespace Test002
         
                                                             //Console.WriteLine("內容:::::  "+oneNode2.InnerText);
 
-                                                            if(oneNode2.InnerText.Contains("asdf")){
-                                                                Send(instanceNum+":::::::"+"找到批踢踢 asdf",oneNode2.InnerText);
+                                                            bool 全部都有 = true;
+                                                            foreach(var 目標 in 目標們)
+                                                            {
+                                                                if(!oneNode2.InnerText.Contains(目標)){
+                                                                    全部都有 = false;
+                                                                    break;
+                                                                }
+                                                            }
+
+                                                            if(全部都有)
+                                                            {
+                                                                Send(instanceNum+":::::::"+"找到批踢踢",oneNode2.InnerText);
                                                             }
 
 
                                                         }
                                                         if(!hasNew){
-                                                            Send(instanceNum+":::::::"+"找到批踢踢 公告","沒新的");
+                                                            //Send(instanceNum+":::::::"+"找到批踢踢 公告","沒新的");
                                                             return 1;
                                                         }else{
-                                                             Send(instanceNum+":::::::"+"找到批踢踢 公告","有新的");
+                                                            //Send(instanceNum+":::::::"+"找到批踢踢 公告","有新的");
                                                         }
                                                     }
                        return 1;
-                   };
- 
-                    GetDic1();
-                    Console.WriteLine("eeeennndddd");
+        }
+
+
+        public Startup(IConfiguration config)
+        {
+            _config = config;
+
+
+             Email.DefaultSender = new MailgunSender(
+                                _config["Mailgun:Domain"], //   Mailgun Domain
+                                _config["Mailgun:APIKey"] // Mailgun API Key
+                        ); 
+
+            Send(instanceNum+":::::::"+"程式開啟","~~~~~~~~如題");
+
+
+
+            new Thread(() => 
+            {
+                HashSet<string> hash = new HashSet<string>();
+                while(true)
+                {
+                    GetPtt(ref hash,"https://www.ptt.cc/bbs/Rent_tao/index.html",new List<string>{"忠孝復興","大潤發"});
                     Thread.Sleep(TimeSpan.FromMinutes(10));
                 }
             }).Start();
-
-
-
-
-            
-            return;
-
-        //  http://cup2020.whfa.football.idv.tw/schedule.php?level=3 
-
-
-
-
 
 
 
@@ -349,7 +345,7 @@ namespace Test002
  
                     var dic1 = GetDic1();
 
-                    if(first)
+                    if(false)//first)
                     {
                         dic1["日期:4月11日  時間:1640-1750  主隊:熱血足球 (紅黑)  客隊:挑戰者 (紅黑)  "]="喔第一次熱血vs挑戰";
                         dic1["隨便key~"]="隨便value~";
@@ -386,7 +382,7 @@ namespace Test002
                         ).Result;
 
                         
-                    if(first)
+                    if(false)//first)
                     {
                         dic1["Liverpool"]="第一次利物浦";
                         dic1["隨便key"]="隨便value";
