@@ -232,7 +232,34 @@ namespace Test002
                                 _config["Mailgun:APIKey"] // Mailgun API Key
                         ); 
 
-            Send(instanceNum+":::::::"+"程式開啟","~~~~~~~~如題");
+            new Thread(() => 
+            {
+                DateTime now = DateTime.Now;
+                List<DateTime> times = new List<DateTime>();
+                for(int i=0;i<365*10;i++){ //跑十年
+                    times.Add(new DateTime(now.Year, now.Month, now.Day, 6, 0, 0));
+                    times.Add(new DateTime(now.Year, now.Month, now.Day, 14, 0, 0));
+                    times.Add(new DateTime(now.Year, now.Month, now.Day, 19, 47, 0));
+                    now = now + TimeSpan.FromDays(1);
+                }
+
+                while(true)
+                {
+                    if(DateTime.Now>times[0])
+                    {
+                        if(DateTime.Now>times[1]){
+                        }
+                        else{
+                         Send(instanceNum+":::::::"+"生存確認:"+times[0],"如題");
+                        }
+                        times.RemoveAt(0);
+                    }
+                    else
+                    {
+                         Thread.Sleep(TimeSpan.FromSeconds(30));
+                    }
+                }
+            }).Start();
 
 
 
@@ -245,7 +272,6 @@ namespace Test002
                     Thread.Sleep(TimeSpan.FromMinutes(10));
                 }
             }).Start();
-
 
 
 
