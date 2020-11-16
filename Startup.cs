@@ -250,7 +250,7 @@ namespace Test002
                         if(DateTime.Now>times[1]){
                         }
                         else{
-                         Send(instanceNum+":::::::"+"生存確認:"+times[0],"如題");
+                         Send(instanceNum+":::::::"+"生存確認:"+DateTime.Now,"如題");
                         }
                         times.RemoveAt(0);
                     }
