@@ -237,9 +237,9 @@ namespace Test002
                 DateTime now = DateTime.Now;
                 List<DateTime> times = new List<DateTime>();
                 for(int i=0;i<365*10;i++){ //跑十年
-                    times.Add(new DateTime(now.Year, now.Month, now.Day, 6, 0, 0));
-                    times.Add(new DateTime(now.Year, now.Month, now.Day, 14, 0, 0));
-                    times.Add(new DateTime(now.Year, now.Month, now.Day, 19, 47, 0));
+                    times.Add(new DateTime(now.Year, now.Month, now.Day, 06, 0, 0));//台灣時間下午14點  linux時間 早上6點
+                    times.Add(new DateTime(now.Year, now.Month, now.Day, 14, 0, 0));//台灣時間晚上22點  linux時間 下午14點
+                    times.Add(new DateTime(now.Year, now.Month, now.Day, 22, 0, 0));// 台灣時間早上6點   linux時間 晚上22點
                     now = now + TimeSpan.FromDays(1);
                 }
 
