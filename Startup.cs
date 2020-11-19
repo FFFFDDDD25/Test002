@@ -297,26 +297,23 @@ namespace Test002
             //生存確認
             new Thread(() =>
             {
-                DateTime now = DateTime.Now;
+                DateTime yesterday = DateTime.Now - TimeSpan.FromDays(1);
                 List<DateTime> times = new List<DateTime>(){
-                    new DateTime(now.Year, now.Month, now.Day, 06, 0, 0),//台灣時間下午14點  linux時間 早上6點
-                    new DateTime(now.Year, now.Month, now.Day, 14, 0, 0),//台灣時間晚上22點  linux時間 下午14點
-                    new DateTime(now.Year, now.Month, now.Day, 22, 0, 0),//台灣時間早上6點   linux時間 晚上22點
+                    new DateTime(yesterday.Year, yesterday.Month, yesterday.Day, 06, 0, 0),//台灣時間下午14點  linux時間 早上6點
+                    new DateTime(yesterday.Year, yesterday.Month, yesterday.Day, 14, 0, 0),//台灣時間晚上22點  linux時間 下午14點
+                    new DateTime(yesterday.Year, yesterday.Month, yesterday.Day, 22, 0, 0),//台灣時間早上6點   linux時間 晚上22點
                 };
-
-
 
                 while (true)
                 {
                     if (DateTime.Now > times[0])
                     {
+                        Console.WriteLine("警告 這一行不應該頻繁觸發");
                         if (DateTime.Now > times[1])
                         {
-                            Console.WriteLine("0   "+times[0]+"~~~"+DateTime.Now);
                         }
                         else
                         {
-                           Console.WriteLine("1   "+times[0]+"~~~"+DateTime.Now);
                            Send(instanceNum + ":::::::" + "生存確認:" + DateTime.Now, "如題");
                         }
                         times.Add(times[0].AddDays(1));
@@ -324,9 +321,8 @@ namespace Test002
                     }
                     else
                     {
-                      Console.WriteLine("2   "+times[0]+"~~~"+DateTime.Now);
+                        Thread.Sleep(TimeSpan.FromSeconds(10));
                     }
-                    Thread.Sleep(TimeSpan.FromSeconds(10));
                 }
             }).Start();
 
