@@ -312,13 +312,19 @@ namespace Test002
                     {
                         if (DateTime.Now > times[1])
                         {
+                            Console.WriteLine("0   "+times[0]+"~~~"+DateTime.Now);
                         }
                         else
                         {
+                           Console.WriteLine("1   "+times[0]+"~~~"+DateTime.Now);
                            Send(instanceNum + ":::::::" + "生存確認:" + DateTime.Now, "如題");
                         }
                         times.Add(times[0].AddDays(1));
                         times.RemoveAt(0);
+                    }
+                    else
+                    {
+                      Console.WriteLine("2   "+times[0]+"~~~"+DateTime.Now);
                     }
                     Thread.Sleep(TimeSpan.FromSeconds(10));
                 }
