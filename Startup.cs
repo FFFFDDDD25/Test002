@@ -186,7 +186,9 @@ namespace Test002
             //button
             //over18-button-container
 
-            for (int i = 0; i < 3; i++)
+            bool I等於3太少嗎 = false;
+            var I=3;
+            for (int i = 0; i < I; i++)
             {
                 var doc = GetPtt18(網址1);
                 var oneNode = doc.DocumentNode.SelectSingleNode(
@@ -274,6 +276,11 @@ namespace Test002
                 }
                 else
                 {
+                    
+                    if(i==I-1)
+                    {
+                        Send(instanceNum+":::::::"+"找到批踢踢 公告",網址1+"  更新太快  可能要加大頁數或是縮短更新時間  ");
+                    }
                     //Send(instanceNum+":::::::"+"找到批踢踢 公告","有新的");
                 }
             }
