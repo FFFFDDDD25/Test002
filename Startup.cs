@@ -304,6 +304,8 @@ namespace Test002
                     new DateTime(now.Year, now.Month, now.Day, 22, 0, 0),//台灣時間早上6點   linux時間 晚上22點
                 };
 
+
+
                 while (true)
                 {
                     if (DateTime.Now > times[0])
@@ -313,7 +315,7 @@ namespace Test002
                         }
                         else
                         {
-                            Send(instanceNum + ":::::::" + "生存確認:" + DateTime.Now, "如題");
+                           Send(instanceNum + ":::::::" + "生存確認:" + DateTime.Now, "如題");
                         }
                         times.Add(times[0].AddDays(1));
                         times.RemoveAt(0);
@@ -323,6 +325,7 @@ namespace Test002
             }).Start();
 
 
+            return;
 
             //八卦版
             new Thread(() =>
