@@ -188,7 +188,6 @@ namespace Test002
 
             var hashCount = hash.Count;
 
-            bool I等於3太少嗎 = false;
             var I=3;
             for (int i = 0; i < I; i++)
             {
@@ -279,7 +278,7 @@ namespace Test002
                 else
                 {
                     
-                    if(i==I-1 && hashCount != 0)
+                    if(i+1==I && hashCount != 0)
                     {
                         Send(instanceNum+":::::::"+"找到批踢踢 公告",網址1+"  更新太快  可能要加大頁數或是縮短更新時間  ");
                     }
@@ -629,7 +628,7 @@ namespace Test002
 
 
 
-                Console.Write(JsonConvert.SerializeObject(dic));
+                //Console.Write(JsonConvert.SerializeObject(dic));
 
 
                 if (context != null)
