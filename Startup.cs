@@ -19,7 +19,10 @@ using Google.Cloud.Diagnostics.AspNetCore;
 using FluentEmail.Mailgun;
 using FluentEmail;
 using FluentEmail.Core;
-
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -63,6 +66,7 @@ namespace Test002
         //   Here we are using Dependency Injection to inject the Configuration object
 
 
+        private readonly ILogger _logger;
 
         public void Compare_Send_WaitHour(Dictionary<string, string> dic1, ref Dictionary<string, string> dic2, string emailTitle)
         {
@@ -70,6 +74,7 @@ namespace Test002
             {
                 return;
             }
+
 
             if (dic2 == null)
             {
@@ -291,6 +296,14 @@ namespace Test002
 
         public Startup(IConfiguration config)
         {
+            
+            _logger.LogTrace("This trace log from Home.Index()");
+            _logger.LogDebug("This debug log from Home.Index()");
+            _logger.LogInformation("This information log from Home.Index()");
+            _logger.LogWarning("This warning log from Home.Index()");
+            _logger.LogError("This error log from Home.Index()");
+            _logger.LogCritical("This critical log from Home.Index()");
+            
             _config = config;
 
 
