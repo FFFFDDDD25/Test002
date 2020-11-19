@@ -327,7 +327,6 @@ namespace Test002
             }).Start();
 
 
-            return;
 
             //八卦版
             new Thread(() =>
