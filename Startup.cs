@@ -273,7 +273,7 @@ namespace Test002
                 }
                 if (!hasNew)
                 {
-                    //Send(instanceNum+":::::::"+"找到批踢踢 公告","沒新的");
+                    // Send(instanceNum+":::::::"+"找到批踢踢 公告","沒新的");
                     return 1;
                 }
                 else
