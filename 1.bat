@@ -15,4 +15,3 @@
 	rem rem
 	rem rem
 	rem rem
-        pause
