@@ -153,6 +153,8 @@ namespace Test002
         public HtmlDocument GetPtt18(string 網址1)
         {
             var jsonResponse = "";
+            try{
+                
             var webRequest = System.Net.WebRequest.Create(網址1);
             if (webRequest != null)
             {
@@ -171,9 +173,18 @@ namespace Test002
             var doc = new HtmlDocument();
             doc.LoadHtml(jsonResponse);
 
+            log.LogInformation("開網址成功 網址:"+網址1);
             return doc;
+            
+            }
+            catch(Exception ex){
+                log.LogError("開網址出錯 網址:"+網址1);
+                log.LogError(ex.ToString());
+
+            }
+            return null;
         }
-        public int GetPtt(ref HashSet<string> hash, string 網址1, List<string> 目標們, bool AndorOr)
+        public bool GetPtt(ref HashSet<string> hash, string 網址1, List<string> 目標們, bool AndorOr)
         {
             /*
             import requests
@@ -196,6 +207,9 @@ namespace Test002
             for (int i = 0; i < I; i++)
             {
                 var doc = GetPtt18(網址1);
+                if(doc==null){
+                    return false;
+                }
                 var oneNode = doc.DocumentNode.SelectSingleNode(
                     "/html/body/div[2]/div[1]/div/div[2]/a[2]"
                     .Replace("/tbody", ""));
@@ -279,7 +293,7 @@ namespace Test002
                 if (!hasNew)
                 {
                     // Send(instanceNum+":::::::"+"找到批踢踢 公告","沒新的");
-                    return 1;
+                    return true;
                 }
                 else
                 {
@@ -297,7 +311,7 @@ namespace Test002
                     //Send(instanceNum+":::::::"+"找到批踢踢 公告","有新的");
                 }
             }
-            return 1;
+            return true;
         }
 
 
@@ -361,7 +375,10 @@ namespace Test002
                 while (true)
                 {
                     var ori_ = hash.Count;
-                    GetPtt(ref hash, "https://www.ptt.cc/bbs/Gossiping/index.html", new List<string> { "肥宅", "女" }, true);
+                    var ok = GetPtt(ref hash, "https://www.ptt.cc/bbs/Gossiping/index.html", new List<string> { "肥宅", "女" }, true);
+                    if(!ok){
+                        continue;
+                    }
                     var new_ = hash.Count;
                     log.LogInformation("八卦新增文章:"+(new_-ori_));
                     Thread.Sleep(TimeSpan.FromMinutes(10));
@@ -376,7 +393,9 @@ namespace Test002
                 while (true)
                 {
                     var ori_ = hash.Count;
-                    GetPtt(ref hash, "https://www.ptt.cc/bbs/Rent_tao/index.html", new List<string> { "忠孝復興", "大潤發" }, true);
+                    var ok =  GetPtt(ref hash, "https://www.ptt.cc/bbs/Rent_tao/index.html", new List<string> { "忠孝復興", "大潤發" }, true);      if(!ok){
+                        continue;
+                    }
                     var new_ = hash.Count;
                     log.LogInformation("八卦新增文章:"+(new_-ori_));
                     Thread.Sleep(TimeSpan.FromMinutes(10));
