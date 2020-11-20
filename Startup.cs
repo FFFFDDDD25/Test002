@@ -173,7 +173,6 @@ namespace Test002
             var doc = new HtmlDocument();
             doc.LoadHtml(jsonResponse);
 
-            log.LogInformation("開網址成功 網址:"+網址1);
             return doc;
             
             }
