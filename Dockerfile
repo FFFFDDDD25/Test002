@@ -14,7 +14,7 @@ COPY . ./
 
 
 
-# 20201120 RUN dotnet publish -c Release -o out
+RUN dotnet publish -c Release -o out
 
 
                             
