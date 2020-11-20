@@ -325,6 +325,23 @@ namespace Test002
             msg = "~~~~Trace";log.LogTrace(msg);Console.WriteLine(msg);Thread.Sleep(200);
             msg = "~~~~Warning";log.LogWarning(msg);Console.WriteLine(msg);Thread.Sleep(200);
         }
+
+        
+        public void Comment()
+        {
+            var sdfsfd = @"";
+            return;
+            //關於 vmmem 這個程序占用太大記憶體解法:
+            //建立檔案  C:\Users\User\.wslconfig
+            //內容:
+            //[wsl2]
+            //memory=數字GB   # Limits VM memory in WSL 2 to 4 GB
+            //processors=數字 # Makes the WSL 2 VM use two virtual processors
+            //
+            //然後重啟server  指令:  Restart-Service LxssManager
+        }
+
+
         private readonly ILogger<Startup> log;
         public Startup(IConfiguration werwerwr)
         {
