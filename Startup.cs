@@ -306,6 +306,7 @@ namespace Test002
         {
             var fac =  LoggerFactory.Create(builder =>
             {
+                builder.AddDebug();         
                 builder.AddConsole();                
             });
 
@@ -359,7 +360,10 @@ namespace Test002
                 HashSet<string> hash = new HashSet<string>();
                 while (true)
                 {
+                    var ori_ = hash.Count;
                     GetPtt(ref hash, "https://www.ptt.cc/bbs/Gossiping/index.html", new List<string> { "肥宅", "女" }, true);
+                    var new_ = hash.Count;
+                    log.LogInformation("八卦新增文章:"+(new_-ori_));
                     Thread.Sleep(TimeSpan.FromMinutes(10));
                 }
             }).Start();
@@ -371,7 +375,10 @@ namespace Test002
                 HashSet<string> hash = new HashSet<string>();
                 while (true)
                 {
+                    var ori_ = hash.Count;
                     GetPtt(ref hash, "https://www.ptt.cc/bbs/Rent_tao/index.html", new List<string> { "忠孝復興", "大潤發" }, true);
+                    var new_ = hash.Count;
+                    log.LogInformation("八卦新增文章:"+(new_-ori_));
                     Thread.Sleep(TimeSpan.FromMinutes(10));
                 }
             }).Start();
@@ -472,6 +479,8 @@ namespace Test002
                     };
 
                     var dic1 = GetDic1();
+
+                    log.LogDebug("河濱數量:"+dic1.Count);
 
                     if (false)//first)
                     {
@@ -606,18 +615,22 @@ namespace Test002
 
 
                 List<MatchCollection> mcs = new List<MatchCollection>();
+                List<String> ss = new List<String>();
                 foreach (var craw in craws)
                 {
                     mcs.Add(new Regex(craw.regex, RegexOptions.Compiled).Matches(msg));
+                    ss.Add(craw.regex);
                 }
 
 
 
                 var ok = true;
+                int i =-1;
                 foreach (var mc in mcs)
-                {
+                {   i++;
                     if (mc.Count != count)
                     {
+                        log.LogError("pattern:"+ss[i]+"  "+"期待數量:"+count+"  "+"實際數量:"+mc.Count);
                         ok = false;
                     }
                 }
@@ -641,7 +654,6 @@ namespace Test002
                             );
                     }
                 }
-
 
 
 
