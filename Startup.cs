@@ -654,12 +654,12 @@ namespace Test002
 
 
                 var ok = true;
-                int i =-1;
+                int k =-1;
                 foreach (var mc in mcs)
-                {   i++;
+                {   k++;
                     if (mc.Count != count)
                     {
-                        log.LogError("pattern:"+ss[i]+"  "+"期待數量:"+count+"  "+"實際數量:"+mc.Count);
+                        log.LogError("pattern:"+ss[k]+"  "+"期待數量:"+count+"  "+"實際數量:"+mc.Count);
                         ok = false;
                     }
                 }
