@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Threading.Tasks;
+using System.Threading;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -317,12 +318,12 @@ namespace Test002
         public void TestLog()
         {
             var msg = "";
-            Console.Write("【");msg = "~~~~Error";log.LogError(msg);Console.WriteLine(msg);Console.Write("】");
-            Console.Write("【");msg = "~~~~Debug";log.LogDebug(msg);Console.WriteLine(msg);Console.Write("】");
-            Console.Write("【");msg = "~~~~Information";log.LogInformation(msg);Console.WriteLine(msg);Console.Write("】");
-            Console.Write("【");msg = "~~~~Critical";log.LogCritical(msg);Console.WriteLine(msg);Console.Write("】");
-            Console.Write("【");msg = "~~~~Trace";log.LogTrace(msg);Console.WriteLine(msg);Console.Write("】");
-            Console.Write("【");msg = "~~~~Warning";log.LogWarning(msg);Console.WriteLine(msg);Console.Write("】");
+            msg = "~~~~Error";log.LogError(msg);Console.WriteLine(msg);Thread.Sleep(200);
+            msg = "~~~~Debug";log.LogDebug(msg);Console.WriteLine(msg);Thread.Sleep(200);
+            msg = "~~~~Information";log.LogInformation(msg);Console.WriteLine(msg);Thread.Sleep(200);
+            msg = "~~~~Critical";log.LogCritical(msg);Console.WriteLine(msg);Thread.Sleep(200);
+            msg = "~~~~Trace";log.LogTrace(msg);Console.WriteLine(msg);Thread.Sleep(200);
+            msg = "~~~~Warning";log.LogWarning(msg);Console.WriteLine(msg);Thread.Sleep(200);
         }
         private readonly ILogger<Startup> log;
         public Startup(IConfiguration werwerwr)
