@@ -14,7 +14,6 @@ namespace Test002
     {
         public static void Main(string[] args)
         {
-
             CreateHostBuilder(args).Build().Run();
         }
 
@@ -23,6 +22,7 @@ namespace Test002
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                })
+                ;
     }
 }

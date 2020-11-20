@@ -293,48 +293,32 @@ namespace Test002
         }
 
 
-        private readonly ILogger _logger;
-        public Startup(IConfiguration config)
+        private readonly ILogger<Startup> _logger;
+        public Startup(IConfiguration werwerwr)
         {
-            
-            _config = config;
+            var fac =  LoggerFactory.Create(builder =>
+            {
+                builder.AddConsole();                
+            });
 
+            _logger =  fac.CreateLogger<Startup>();
+
+            _config = werwerwr;
 
             Email.DefaultSender = new MailgunSender(
                                _config["Mailgun:Domain"], //   Mailgun Domain
                                _config["Mailgun:APIKey"] // Mailgun API Key
                        );
 
-            try{
-                _logger.LogError("This trace log from Home.Index()");
-                Console.WriteLine("OOOOOOOKKKKK");
-            }catch(Exception ex){
-                Console.WriteLine("GGGGGGGGGGG 1111 "+ex.ToString());
-            }
+
+            _logger.LogInformation("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
+            _logger.LogError("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
+            _logger.LogWarning("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
 
 
-           Host.CreateDefaultBuilder().ConfigureLogging((context, builder) =>
-                                        {
-                                            builder.AddConsole();
-                                        }).Start().Run();
-
-            try{
-                _logger.LogError("This trace log from Home.Index()");
-                Console.WriteLine("OOOOOOOKKKKK");
-            }catch(Exception ex){
-                Console.WriteLine("GGGGGGGGGGG 2222 "+ex.ToString());
-            }
 
             return;
 
-
-            _logger.LogTrace("This trace log from Home.Index()");
-            _logger.LogDebug("This debug log from Home.Index()");
-            _logger.LogInformation("This information log from Home.Index()");
-            _logger.LogWarning("This warning log from Home.Index()");
-            _logger.LogError("This error log from Home.Index()");
-            _logger.LogCritical("This critical log from Home.Index()");
-            
 
 
             //生存確認
@@ -565,6 +549,7 @@ namespace Test002
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
