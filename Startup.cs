@@ -297,13 +297,14 @@ namespace Test002
         public Startup(IConfiguration config)
         {
             
+            /*
             _logger.LogTrace("This trace log from Home.Index()");
             _logger.LogDebug("This debug log from Home.Index()");
             _logger.LogInformation("This information log from Home.Index()");
             _logger.LogWarning("This warning log from Home.Index()");
             _logger.LogError("This error log from Home.Index()");
             _logger.LogCritical("This critical log from Home.Index()");
-            
+            */
             _config = config;
 
 
@@ -335,7 +336,7 @@ namespace Test002
                         }
                         else
                         {
-                           Send(instanceNum + ":::::::" + "生存確認:" + DateTime.Now, "如題");
+                           Send(instanceNum + ":::::::" + "生存確認~~~:" + DateTime.Now, "如題");
                         }
                         times.Add(times[0].AddDays(1));
                         times.RemoveAt(0);
