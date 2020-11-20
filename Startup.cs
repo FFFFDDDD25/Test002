@@ -318,12 +318,12 @@ namespace Test002
         public void TestLog()
         {
             var msg = "";
-            msg = "~~~~Error";log.LogError(msg);Console.WriteLine(msg);
-            msg = "~~~~Debug";log.LogDebug(msg);Console.WriteLine(msg);
-            msg = "~~~~Information";log.LogInformation(msg);Console.WriteLine(msg);
-            msg = "~~~~Critical";log.LogCritical(msg);Console.WriteLine(msg);
-            msg = "~~~~Trace";log.LogTrace(msg);Console.WriteLine(msg);
-            msg = "~~~~Warning";log.LogWarning(msg);Console.WriteLine(msg);
+            Console.Write("【");msg = "~~~~Error";log.LogError(msg);Console.WriteLine(msg);Console.Write("】");
+            Console.Write("【");msg = "~~~~Debug";log.LogDebug(msg);Console.WriteLine(msg);Console.Write("】");
+            Console.Write("【");msg = "~~~~Information";log.LogInformation(msg);Console.WriteLine(msg);Console.Write("】");
+            Console.Write("【");msg = "~~~~Critical";log.LogCritical(msg);Console.WriteLine(msg);Console.Write("】");
+            Console.Write("【");msg = "~~~~Trace";log.LogTrace(msg);Console.WriteLine(msg);Console.Write("】");
+            Console.Write("【");msg = "~~~~Warning";log.LogWarning(msg);Console.WriteLine(msg);Console.Write("】");
         }
         private readonly ILogger<Startup> log;
         public Startup(IConfiguration werwerwr)
@@ -363,7 +363,7 @@ namespace Test002
                 {
                     if (DateTime.Now > times[0])
                     {
-                        //log.LogWarning("警告 這一行不應該頻繁觸發");
+                        log.LogWarning("警告 這一行不應該頻繁觸發");
                         if (DateTime.Now > times[1])
                         {
                         }
