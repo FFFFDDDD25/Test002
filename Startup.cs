@@ -211,6 +211,7 @@ namespace Test002
                     .Replace("/tbody", ""));
 
                 bool hasNew = false;
+                bool hasOld = false;
                 foreach (var linkNode in linkNodes)
                 {
                     var test = new Regex(@"a href=\""(.+)\""", RegexOptions.Compiled).Matches(linkNode.OuterHtml);
@@ -220,6 +221,7 @@ namespace Test002
 
                     if (hash.Contains(網址2))
                     {
+                        hasOld = true;
                         continue;
                     }
                     else
@@ -284,7 +286,13 @@ namespace Test002
                     
                     if(i+1==I && hashCount != 0)
                     {
+                        
                         Send(instanceNum+":::::::"+"找到批踢踢 公告",網址1+"  更新太快  可能要加大頁數或是縮短更新時間  ");
+                        if(hasOld){
+                            log.LogWarning(網址1+"  更新太快 但還好還有舊的    可能要加大頁數或是縮短更新時間");
+                        }else{
+                            log.LogWarning(網址1+"  更新太快 嚴重到沒有舊的    可能要加大頁數或是縮短更新時間");
+                        }
                     }
                     //Send(instanceNum+":::::::"+"找到批踢踢 公告","有新的");
                 }
@@ -293,7 +301,7 @@ namespace Test002
         }
 
 
-        private readonly ILogger<Startup> _logger;
+        private readonly ILogger<Startup> log;
         public Startup(IConfiguration werwerwr)
         {
             var fac =  LoggerFactory.Create(builder =>
@@ -301,24 +309,14 @@ namespace Test002
                 builder.AddConsole();                
             });
 
-            _logger =  fac.CreateLogger<Startup>();
+            log =  fac.CreateLogger<Startup>();
 
             _config = werwerwr;
 
             Email.DefaultSender = new MailgunSender(
-                               _config["Mailgun:Domain"], //   Mailgun Domain
+                               _config["Mailgun:Domain"], // Mailgun Domain
                                _config["Mailgun:APIKey"] // Mailgun API Key
                        );
-
-
-            _logger.LogInformation("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
-            _logger.LogError("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
-            _logger.LogWarning("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
-
-
-
-            return;
-
 
 
             //生存確認
@@ -335,7 +333,7 @@ namespace Test002
                 {
                     if (DateTime.Now > times[0])
                     {
-                        Console.WriteLine("警告 這一行不應該頻繁觸發");
+                        log.LogWarning("警告 這一行不應該頻繁觸發");
                         if (DateTime.Now > times[1])
                         {
                         }
