@@ -3,3 +3,4 @@
     git pull
     docker build  . -t test002
     docker run test002
+pause
