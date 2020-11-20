@@ -66,7 +66,6 @@ namespace Test002
         //   Here we are using Dependency Injection to inject the Configuration object
 
 
-        private readonly ILogger _logger;
 
         public void Compare_Send_WaitHour(Dictionary<string, string> dic1, ref Dictionary<string, string> dic2, string emailTitle)
         {
@@ -294,17 +293,10 @@ namespace Test002
         }
 
 
+        private readonly ILogger _logger;
         public Startup(IConfiguration config)
         {
             
-            /*
-            _logger.LogTrace("This trace log from Home.Index()");
-            _logger.LogDebug("This debug log from Home.Index()");
-            _logger.LogInformation("This information log from Home.Index()");
-            _logger.LogWarning("This warning log from Home.Index()");
-            _logger.LogError("This error log from Home.Index()");
-            _logger.LogCritical("This critical log from Home.Index()");
-            */
             _config = config;
 
 
@@ -313,7 +305,36 @@ namespace Test002
                                _config["Mailgun:APIKey"] // Mailgun API Key
                        );
 
+            try{
+                _logger.LogError("This trace log from Home.Index()");
+                Console.WriteLine("OOOOOOOKKKKK");
+            }catch(Exception ex){
+                Console.WriteLine("GGGGGGGGGGG 1111 "+ex.ToString());
+            }
 
+
+           Host.CreateDefaultBuilder().ConfigureLogging((context, builder) =>
+                                        {
+                                            builder.AddConsole();
+                                        }).Start().Run();
+
+            try{
+                _logger.LogError("This trace log from Home.Index()");
+                Console.WriteLine("OOOOOOOKKKKK");
+            }catch(Exception ex){
+                Console.WriteLine("GGGGGGGGGGG 2222 "+ex.ToString());
+            }
+
+            return;
+
+
+            _logger.LogTrace("This trace log from Home.Index()");
+            _logger.LogDebug("This debug log from Home.Index()");
+            _logger.LogInformation("This information log from Home.Index()");
+            _logger.LogWarning("This warning log from Home.Index()");
+            _logger.LogError("This error log from Home.Index()");
+            _logger.LogCritical("This critical log from Home.Index()");
+            
 
 
             //生存確認
