@@ -315,16 +315,28 @@ namespace Test002
         }
 
 
+        public void TestLog()
+        {
+            var msg = "";
+            msg = "~~~~Error";log.LogError(msg);Console.WriteLine(msg);
+            msg = "~~~~Debug";log.LogDebug(msg);Console.WriteLine(msg);
+            msg = "~~~~Information";log.LogInformation(msg);Console.WriteLine(msg);
+            msg = "~~~~Critical";log.LogCritical(msg);Console.WriteLine(msg);
+            msg = "~~~~Trace";log.LogTrace(msg);Console.WriteLine(msg);
+            msg = "~~~~Warning";log.LogWarning(msg);Console.WriteLine(msg);
+        }
         private readonly ILogger<Startup> log;
         public Startup(IConfiguration werwerwr)
         {
             var fac =  LoggerFactory.Create(builder =>
             {
+                builder.ClearProviders();
                 builder.AddDebug();         
-                builder.AddConsole();                
+                builder.AddConsole();
             });
 
             log =  fac.CreateLogger<Startup>();
+            TestLog();
 
             _config = werwerwr;
 
