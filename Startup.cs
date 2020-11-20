@@ -246,7 +246,7 @@ namespace Test002
 
                     var doc2 = GetPtt18(網址2);
                     if(doc2==null){
-                        return false;
+                        continue;
                     }
                     var oneNode2 = doc2.DocumentNode.SelectSingleNode(
                         @"/html/body/div[3]/div[1]"
