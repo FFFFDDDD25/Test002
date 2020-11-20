@@ -407,7 +407,7 @@ namespace Test002
                     var ori_ = hash.Count;
                     var ok =  GetPtt(ref hash, "https://www.ptt.cc/bbs/Rent_tao/index.html", new List<string> { "忠孝復興", "大潤發" }, true);
                     var new_ = hash.Count;
-                    log.LogInformation("八卦新增文章:"+(new_-ori_));
+                    log.LogInformation("套房新增文章:"+(new_-ori_));
                     Thread.Sleep(TimeSpan.FromMinutes(10));
                 }
             }).Start();
