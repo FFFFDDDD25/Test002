@@ -414,6 +414,30 @@ namespace Test002
                 }
             }).Start();
 
+            
+            //ALLPOST
+            new Thread(() =>
+            {
+                HashSet<string> hash = new HashSet<string>();
+                while (true)
+                {
+                    var ori_ = hash.Count;
+                    var ok = GetPtt(ref hash, "https://www.ptt.cc/bbs/ALLPOST/index.html", new List<string> { 
+                        "中山國中", 
+                        "中山區", 
+                        "榮星", 
+                        "合江", 
+                        "錦州", 
+                        "龍江", 
+                        "行天宮", 
+                        "test123456", 
+                        }, false);
+                    var new_ = hash.Count;
+                    log.LogInformation("ALLPOST新增文章:"+(new_-ori_));
+                    Thread.Sleep(TimeSpan.FromSeconds(30));
+                }
+            }).Start();
+
 
             //套房版
             new Thread(() =>
