@@ -337,6 +337,14 @@ namespace Test002
 
             log =  fac.CreateLogger<Startup>();
 
+            _config = werwerwr;
+
+            Email.DefaultSender = new MailgunSender(
+                               _config["Mailgun:Domain"], // Mailgun Domain
+                               _config["Mailgun:APIKey"] // Mailgun API Key
+                       );
+
+
             TestLog();
             var msg = "";
             msg = "~~~~Error";log.LogError(msg);Console.WriteLine(msg);
@@ -346,12 +354,6 @@ namespace Test002
             msg = "~~~~Trace";log.LogTrace(msg);Console.WriteLine(msg);
             msg = "~~~~Warning";log.LogWarning(msg);Console.WriteLine(msg);
 
-            _config = werwerwr;
-
-            Email.DefaultSender = new MailgunSender(
-                               _config["Mailgun:Domain"], // Mailgun Domain
-                               _config["Mailgun:APIKey"] // Mailgun API Key
-                       );
 
 
             //生存確認
