@@ -184,7 +184,7 @@ namespace Test002
             }
             return null;
         }
-        public bool GetPtt(ref HashSet<string> hash, string 網址1, List<string> 目標們, bool AndorOr)
+        public bool GetPtt(ref HashSet<string> hash, string 網址1, List<string> 目標們, bool AndorOr, int pages)
         {
             /*
             import requests
@@ -203,8 +203,7 @@ namespace Test002
 
             var hashCount = hash.Count;
 
-            var I=3;
-            for (int i = 0; i < I; i++)
+            for (int i = 0; i < pages; i++)
             {
                 var doc = GetPtt18(網址1);
                 if(doc==null){
@@ -301,7 +300,7 @@ namespace Test002
                 else
                 {
                     
-                    if(i+1==I && hashCount != 0)
+                    if(i+1==pages && hashCount != 0)
                     {
                         
                         Send(instanceNum+":::::::"+"找到批踢踢 公告",網址1+"  更新太快  可能要加大頁數或是縮短更新時間  ");
@@ -410,10 +409,10 @@ namespace Test002
                 while (true)
                 {
                     var ori_ = hash.Count;
-                    var ok = GetPtt(ref hash, "https://www.ptt.cc/bbs/Gossiping/index.html", new List<string> { "肥宅", "女" }, true);
+                    var ok = GetPtt(ref hash, "https://www.ptt.cc/bbs/Gossiping/index.html", new List<string> { "肥宅", "女" }, true,3);
                     var new_ = hash.Count;
                     log.LogInformation("八卦新增文章:"+(new_-ori_));
-                    Thread.Sleep(TimeSpan.FromMinutes(10));
+                    Thread.Sleep(TimeSpan.FromMinutes(1));
                 }
             }).Start();
 
@@ -434,7 +433,7 @@ namespace Test002
                                 "龍江", 
                                 "行天宮", 
                                 "test123456", 
-                                }, false);
+                                }, false,5);
                             var new_ = hash.Count;
                             log.LogInformation("ALLPOST新增文章:"+(new_-ori_));
                             Thread.Sleep(TimeSpan.FromSeconds(30));
@@ -450,10 +449,10 @@ namespace Test002
                 while (true)
                 {
                     var ori_ = hash.Count;
-                    var ok =  GetPtt(ref hash, "https://www.ptt.cc/bbs/Rent_tao/index.html", new List<string> { "忠孝復興", "大潤發" }, true);
+                    var ok =  GetPtt(ref hash, "https://www.ptt.cc/bbs/Rent_tao/index.html", new List<string> { "忠孝復興", "大潤發" }, true,3);
                     var new_ = hash.Count;
                     log.LogInformation("套房新增文章:"+(new_-ori_));
-                    Thread.Sleep(TimeSpan.FromMinutes(10));
+                    Thread.Sleep(TimeSpan.FromMinutes(30));
                 }
             }).Start();
 
@@ -675,10 +674,19 @@ namespace Test002
 
             var chromeOptions = new ChromeOptions();
             chromeOptions.AddArguments("headless");
-            IWebDriver driver = new ChromeDriver(
+
+IWebDriver driver = null;
+            try{
+
+             driver = new ChromeDriver(
                 ChromeDriverService.CreateDefaultService(),
                 chromeOptions,
                 TimeSpan.FromSeconds(30));
+            }
+            catch(Exception ex){
+                log.LogError("ChromeDriver開啟失敗:"+ex.ToString());
+            }
+
             var dic = new Dictionary<string, string>();
 
             try
