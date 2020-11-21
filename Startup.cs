@@ -675,7 +675,7 @@ namespace Test002
             var chromeOptions = new ChromeOptions();
             chromeOptions.AddArguments("headless");
 
-IWebDriver driver = null;
+            IWebDriver driver = null;
             try{
 
              driver = new ChromeDriver(
@@ -750,6 +750,7 @@ IWebDriver driver = null;
             }
             catch (Exception ex)
             {
+                log.LogError("ChromeDriver爬蟲失敗:"+ex.ToString());
                 if (context != null)
                 {
                     await context.Response.WriteAsync("\n" + "\n" + ex.ToString() + "\n" + "\n" + "\n");
