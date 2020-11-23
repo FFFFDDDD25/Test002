@@ -3,4 +3,3 @@
     git pull
     docker build  . -t test002
     docker run --name test5566 -p 5566:8080 test002
-pause

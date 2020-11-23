@@ -413,7 +413,7 @@ namespace Test002
 
 
             if(false){
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(@"http://localhost:5567/Submit?checkThisUrlEveryMin=http://localhost:5566/");
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(@"http://alive_here/Submit?checkThisUrlEveryMin=http://web_here/");
                 using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
                 using (Stream stream = response.GetResponseStream())
                 using (StreamReader reader = new StreamReader(stream))
