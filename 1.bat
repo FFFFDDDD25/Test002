@@ -9,3 +9,4 @@
 	rem dotnet build
 	rem rem 是註解
 	rem rem
+pause
