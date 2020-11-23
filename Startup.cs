@@ -34,12 +34,12 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Net;
 using HtmlAgilityPack;
-using System.IO;
 using System.Text;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Collections;
-using System.Collections.Generic;
+
+using MongoDB.Driver;
+using MongoDB.Bson;
+
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Test002
 {
@@ -340,13 +340,58 @@ namespace Test002
             //memory=數字GB   # Limits VM memory in WSL 2 to 4 GB
             //processors=數字 # Makes the WSL 2 VM use two virtual processors
             //
-            //然後重啟server  指令:  Restart-Service LxssManager
+            //然後重啟server  使用admin全縣的Powershell指令:  Restart-Service LxssManager
         }
 
+//  docker pull severalnines/clustercontrol
+//  docker run -d -p 5000:80 severalnines/clustercontrol
+//  http://localhost:5000/   或者試試  http://localhost:5000/clustercontrol/
 
         private readonly ILogger<Startup> log;
+
+
+        
+        public class 拉拉拉{
+            
+            [BsonElement("name")]
+            public string NNNMMM{get;set;}="ZZZ";
+          
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+            public string IIIDDD{get;set;}="XXX";
+        }
         public Startup(IConfiguration werwerwr)
         {
+
+
+
+
+
+
+
+
+
+
+
+            {
+                //建立 mongo client
+                var client = new MongoClient("mongodb://abc:efg@127.0.0.1:27017");
+                //取得 database
+                var db = client.GetDatabase("testDB");
+                //取得 user collection
+                var collection = db.GetCollection<拉拉拉>("TableA");
+                
+                //依 name 過濾並取得一筆資料
+                var docs =  collection.Find(new MongoDB.Bson.BsonDocument()).ToList();
+                Console.WriteLine("111:"+docs[0].NNNMMM);
+                Console.WriteLine("111:"+docs[0].IIIDDD);
+                var document2 = collection.Find(a => a.NNNMMM == "DaveIsMe").FirstOrDefault();
+                Console.WriteLine("222:"+document2.IIIDDD);
+                Console.WriteLine("222:"+document2.NNNMMM);
+                var collection2 = db.GetCollection<BsonDocument>("TableA");
+                collection2.InsertOne(new BsonDocument { {"name" , "MaryIsDead"} });
+            }
+
             var fac =  LoggerFactory.Create(builder =>
             {
                 builder.ClearProviders();
@@ -365,6 +410,17 @@ namespace Test002
 
 
             TestLog();
+
+
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(@"http://localhost:5567/Submit?checkThisUrlEveryMin=http://localhost:5567/");
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            using (Stream stream = response.GetResponseStream())
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                var content = reader.ReadToEnd();
+            }
+
 
 
 
