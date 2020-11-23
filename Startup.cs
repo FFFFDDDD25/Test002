@@ -372,7 +372,7 @@ namespace Test002
 
 
 
-
+            if(false)
             {
                 //建立 mongo client
                 var client = new MongoClient("mongodb://abc:efg@127.0.0.1:27017");
@@ -412,13 +412,14 @@ namespace Test002
             TestLog();
 
 
-
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(@"http://localhost:5567/Submit?checkThisUrlEveryMin=http://localhost:5567/");
-            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-            using (Stream stream = response.GetResponseStream())
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                var content = reader.ReadToEnd();
+            if(false){
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(@"http://localhost:5567/Submit?checkThisUrlEveryMin=http://localhost:5566/");
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                using (Stream stream = response.GetResponseStream())
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    var content = reader.ReadToEnd();
+                }
             }
 
 
